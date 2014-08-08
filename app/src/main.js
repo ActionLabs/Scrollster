@@ -3,7 +3,7 @@ define(function(require, exports, module) {
     'use strict';
     // import dependencies
     var Engine = require('famous/core/Engine');
-    var WorldScrollView = require('views/WorldScrollView');
+    var StageView = require('views/StageView');
 
     // create the main context
     var mainContext = Engine.createContext();
@@ -11,7 +11,7 @@ define(function(require, exports, module) {
     // your app here
     mainContext.setPerspective(1000);
 
-    var worldScrollView = new WorldScrollView();
+    var stageView = new StageView();
 
-    mainContext.add(worldScrollView);
+    mainContext.add(stageView);
 });

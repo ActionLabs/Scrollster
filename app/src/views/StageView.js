@@ -6,7 +6,9 @@ define(function(require, exports, module) {
     var GenericSync   = require('famous/inputs/GenericSync');
     var MouseSync     = require('famous/inputs/MouseSync');
     var TouchSync     = require('famous/inputs/TouchSync');
-    var ScrollSync     = require('famous/inputs/ScrollSync');
+    var ScrollSync    = require('famous/inputs/ScrollSync');
+
+    var ActorView     = require('views/ActorView');
 
     GenericSync.register({
         'mouse': MouseSync,
@@ -14,21 +16,22 @@ define(function(require, exports, module) {
         'scroll': ScrollSync
     });
 
-    function WorldScrollView() {
+    function StageView() {
         View.apply(this, arguments);
         this.worldScrollValue = 0;
 
         _setupScrollRecieverSurface.call(this);
         _setupScrollInfoSurface.call(this);
         _handleScroll.call(this);
+        _createDemoActor.call(this);
     }
 
-    WorldScrollView.DEFAULT_OPTIONS = {
+    StageView.DEFAULT_OPTIONS = {
 
     };
 
-    WorldScrollView.prototype = Object.create(View.prototype);
-    WorldScrollView.prototype.constructor = WorldScrollView;
+    StageView.prototype = Object.create(View.prototype);
+    StageView.prototype.constructor = StageView;
 
     function _setupScrollRecieverSurface() {
         this.scrollRecieverSurface = new Surface({
@@ -51,23 +54,34 @@ define(function(require, exports, module) {
     }
 
     function _handleScroll() {
-        var sync = new GenericSync(
+        this.sync = new GenericSync(
             ['touch', 'scroll'],
             {direction: GenericSync.DIRECTION_Y}
         );
 
-        this.scrollRecieverSurface.pipe(sync);
+        this.scrollRecieverSurface.pipe(this.sync);
+        this.scrollInfo.pipe(this.sync);
 
-        sync.on('update', function(data) {
+        this.sync.on('update', function(data) {
             this.worldScrollValue += data.delta;
             this.scrollInfo.setContent('Scroll Value: ' + this.worldScrollValue);
             window.console.log('Scroll update recieved');
+            this._eventOutput.emit('ScrollUpdated', {delta: data.delta});
         }.bind(this));
 
-        sync.on('end', function(data) {
+        this.sync.on('end', function(data) {
             window.console.log('Scroll end recieved');
         }.bind(this));
     }
 
-    module.exports = WorldScrollView;
+    function _createDemoActor() {
+        var demoActor = new ActorView();
+
+        demoActor.mainSurface.pipe(this.sync);
+        demoActor.subscribe(this._eventOutput);
+
+        this.add(demoActor);
+    }
+
+    module.exports = StageView;
 });
