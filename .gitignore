@@ -15,7 +15,3 @@ dist
 .tmp
 app/lib
 .yo-rc.json
-
-# Grunt components #
-####################
-grunt
