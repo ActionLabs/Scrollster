@@ -16,6 +16,7 @@ define(function(require, exports, module) {
 
     function WorldScrollView() {
         View.apply(this, arguments);
+        this.worldScrollValue = 0;
 
         _setupScrollRecieverSurface.call(this);
         _setupScrollInfoSurface.call(this);
@@ -58,6 +59,8 @@ define(function(require, exports, module) {
         this.scrollRecieverSurface.pipe(sync);
 
         sync.on('update', function(data) {
+            this.worldScrollValue += data.delta;
+            this.scrollInfo.setContent('Scroll Value: ' + this.worldScrollValue);
             window.console.log('Scroll update recieved');
         }.bind(this));
 
