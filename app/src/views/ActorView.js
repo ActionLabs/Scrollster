@@ -37,6 +37,18 @@ define(function(require, exports, module) {
         this.mainSurface = newSurface;
     };
 
+    ActorView.prototype.storePosition = function(align) {
+        if (!this.position) this.position = {};
+
+        // Get it's initial position
+        this.position.align = align;
+        var alignX = this.position.align[0];
+        var alignY = this.position.align[1];
+
+        // Convert that position into pixels based on the window's size
+        this.position.pixels = [alignX * window.innerWidth, alignY * window.innerHeight];
+    }
+
     ActorView.prototype.activate = function(scrollSync) {
         if (!this.mainSurface) this.mainSurface = new Surface(this.options.surfaceOptions);
 
@@ -46,10 +58,10 @@ define(function(require, exports, module) {
     };
 
     function _listenToScroll() {
-        this._eventInput.on('ScrollUpdated', _moveWithScroll.bind(this));
+        this._eventInput.on('ScrollUpdated', _updateScrollValue.bind(this));
     }
 
-    function _moveWithScroll(data) {
+    function _updateScrollValue(data) {
         this.initialY += data.delta;
     }
 

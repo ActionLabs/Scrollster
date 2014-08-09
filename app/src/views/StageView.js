@@ -78,7 +78,7 @@ define(function(require, exports, module) {
         var demoActor = new ActorView();
 
         var translateModifier = new Modifier({
-            align: [0.5, 0.5],
+            align: [0.5, 0.75],
             origin: [0.5, 0.5],
             transform: function() {
                 if (this.initialY > -300 || this.initialY < -900) return Transform.translate(0, 0, 0);
@@ -120,16 +120,18 @@ define(function(require, exports, module) {
         demoActor2.addSurface(demoActor2Surface);
 
         var translateModifier2 = new Modifier({
-            align: [0.10, .75],
-            origin: [1.0, 0.0],
+            align: [0.5, 0.5],
+            origin: [0.5, 0.5],
             transform: function() {
                 return Transform.translate(-this.initialY*7, this.initialY * 2, 0);
             }.bind(demoActor2)
         });
 
+        demoActor2.storePosition([0.5, 0.5]);
+
         var spinModifier2 = new Modifier({
             transform: function() {
-                return Transform.rotateY(Math.abs(this.initialY/150) * 3.1415962);
+                return Transform.rotateY((this.initialY/150) * 3.1415962);
             }.bind(demoActor2)
         });
 
