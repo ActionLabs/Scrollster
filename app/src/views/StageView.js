@@ -2,6 +2,8 @@ define(function(require, exports, module) {
     'use strict';
     var View          = require('famous/core/View');
     var Surface       = require('famous/core/Surface');
+    var Modifier      = require('famous/core/Modifier');
+    var Transform     = require('famous/core/Transform');
 
     var GenericSync   = require('famous/inputs/GenericSync');
     var MouseSync     = require('famous/inputs/MouseSync');
@@ -79,6 +81,23 @@ define(function(require, exports, module) {
 
         demoActor.mainSurface.pipe(this.sync);
         demoActor.subscribe(this._eventOutput);
+
+        var translateModifier = new Modifier({
+            align: [0.5, 0.5],
+            origin: [0.5, 0.5],
+            transform: function() {
+                return Transform.translate(0, this.initialY, 0);
+            }.bind(demoActor)
+        });
+
+        var opacityModifier = new Modifier({
+            opacity: function() {
+                return Math.max(0, -this.initialY / 100);
+            }.bind(demoActor)
+        });
+
+        demoActor.addModifier(translateModifier);
+        demoActor.addModifier(opacityModifier);
 
         this.add(demoActor);
     }

@@ -8,6 +8,8 @@ define(function(require, exports, module) {
 
     function ActorView() {
         View.apply(this, arguments);
+        this.modifiers = [];
+        this.modifierChain = new ModifierChain();
         this.initialY = 0;
 
         _buildDemoContent.call(this);
@@ -17,10 +19,13 @@ define(function(require, exports, module) {
 
     };
 
-    
-
     ActorView.prototype = Object.create(View.prototype);
     ActorView.prototype.constructor = ActorView;
+
+    ActorView.prototype.addModifier = function(newModifier) {
+        this.modifiers.push(newModifier);
+        this.modifierChain.addModifier(newModifier);
+    };
 
     function _buildDemoContent() {
         this.mainSurface = new Surface({
@@ -31,26 +36,7 @@ define(function(require, exports, module) {
             }
         });
 
-        this.demoModifierChain = new ModifierChain();
-
-        this.translateModifier = new Modifier({
-            align: [0.5, 0.5],
-            origin: [0.5, 0.5],
-            transform: function() {
-                return Transform.translate(0, this.initialY, 0);
-            }.bind(this)
-        });
-
-        this.opacityModifier = new Modifier({
-          opacity: function () {
-            return Math.max(0, -this.initialY / 1000);
-          }.bind(this)
-        });
-
-        this.demoModifierChain.addModifier(this.opacityModifier);
-        this.demoModifierChain.addModifier(this.translateModifier);
-
-        this.add(this.demoModifierChain).add(this.mainSurface);
+        this.add(this.modifierChain).add(this.mainSurface);
 
         this._eventInput.on('ScrollUpdated', moveWithScroll.bind(this));
     }
