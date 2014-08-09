@@ -2,8 +2,6 @@ define(function(require, exports, module) {
     'use strict';
     var View          = require('famous/core/View');
     var Surface       = require('famous/core/Surface');
-    var Modifier      = require('famous/core/Modifier');
-    var Transform     = require('famous/core/Transform');
     var ModifierChain = require('famous/modifiers/ModifierChain');
 
     function ActorView() {
@@ -12,11 +10,19 @@ define(function(require, exports, module) {
         this.modifierChain = new ModifierChain();
         this.initialY = 0;
 
-        _buildDemoContent.call(this);
+        _listenToScroll.call(this);
     }
 
     ActorView.DEFAULT_OPTIONS = {
-
+        surfaceOptions: {
+            size: [300, 300],
+            content: 'This is a demo',
+            properties: {
+                backgroundColor: 'blue',
+                fontSize: '4em',
+                padding: '.5em'
+            }
+        }
     };
 
     ActorView.prototype = Object.create(View.prototype);
@@ -27,22 +33,23 @@ define(function(require, exports, module) {
         this.modifierChain.addModifier(newModifier);
     };
 
-    function _buildDemoContent() {
-        this.mainSurface = new Surface({
-            size: [200, 200],
-            content: 'This is a demo',
-            properties: {
-                backgroundColor: 'blue'
-            }
-        });
+    ActorView.prototype.addSurface = function(newSurface) {
+        this.mainSurface = newSurface;
+    };
+
+    ActorView.prototype.activate = function(scrollSync) {
+        if (!this.mainSurface) this.mainSurface = new Surface(this.options.surfaceOptions);
+
+        this.mainSurface.pipe(scrollSync);
 
         this.add(this.modifierChain).add(this.mainSurface);
+    };
 
-        this._eventInput.on('ScrollUpdated', moveWithScroll.bind(this));
+    function _listenToScroll() {
+        this._eventInput.on('ScrollUpdated', _moveWithScroll.bind(this));
     }
 
-    function moveWithScroll(data) {
-        // this.initialModifier.transformFrom(Transform.translate(0, data.delta, 0));
+    function _moveWithScroll(data) {
         this.initialY += data.delta;
     }
 

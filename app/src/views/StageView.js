@@ -77,18 +77,14 @@ define(function(require, exports, module) {
     function _createDemoActor() {
         var demoActor = new ActorView();
 
-        demoActor.mainSurface.pipe(this.sync);
-        demoActor.subscribe(this._eventOutput);
-
         var translateModifier = new Modifier({
             align: [0.5, 0.5],
             origin: [0.5, 0.5],
             transform: function() {
-                if (this.initialY > -300 || this.initialY < -900) {
-                    return Transform.translate(0, 0, 0);
-                } else {
-                    return Transform.translate(0, this.initialY+300, 0);
-                }
+                if (this.initialY > -300 || this.initialY < -900) return Transform.translate(0, 0, 0);
+
+                else return Transform.translate(0, this.initialY+300, 0);
+
             }.bind(demoActor)
         });
 
@@ -101,31 +97,47 @@ define(function(require, exports, module) {
         demoActor.addModifier(translateModifier);
         demoActor.addModifier(opacityModifier);
 
+        demoActor.activate(this.sync);
+        demoActor.subscribe(this._eventOutput);
+
         this.add(demoActor);
 
         // **** second demonstraton actor
 
         var demoActor2 = new ActorView();
 
-        demoActor2.mainSurface.pipe(this.sync);
-        demoActor2.subscribe(this._eventOutput);
+        var demoActor2Surface = new Surface({
+            size: [200, 200],
+            content: 'Actor Two',
+            properties: {
+                backgroundColor: 'red',
+                fontSize: '4em',
+                padding: '.5em',
+                backfaceVisibility: 'visible'
+            }
+        });
+
+        demoActor2.addSurface(demoActor2Surface);
 
         var translateModifier2 = new Modifier({
             align: [0.10, .75],
             origin: [1.0, 0.0],
             transform: function() {
-                return Transform.translate(-this.initialY*50, this.initialY * 8, 0);
+                return Transform.translate(-this.initialY*7, this.initialY * 2, 0);
             }.bind(demoActor2)
         });
 
         var spinModifier2 = new Modifier({
             transform: function() {
-                return Transform.rotateY(Math.abs(this.initialY/250) * 3.1415962);
+                return Transform.rotateY(Math.abs(this.initialY/150) * 3.1415962);
             }.bind(demoActor2)
         });
 
-        demoActor2.addModifier(translateModifier2);
         demoActor2.addModifier(spinModifier2);
+        demoActor2.addModifier(translateModifier2);
+
+        demoActor2.activate(this.sync);
+        demoActor2.subscribe(this._eventOutput);
 
         this.add(demoActor2);
     }
