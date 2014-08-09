@@ -67,12 +67,10 @@ define(function(require, exports, module) {
         this.sync.on('update', function(data) {
             this.worldScrollValue += data.delta;
             this.scrollInfo.setContent('Scroll Value: ' + this.worldScrollValue);
-            window.console.log('Scroll update recieved');
             this._eventOutput.emit('ScrollUpdated', {delta: data.delta});
         }.bind(this));
 
         this.sync.on('end', function(data) {
-            window.console.log('Scroll end recieved');
         }.bind(this));
     }
 
@@ -86,7 +84,11 @@ define(function(require, exports, module) {
             align: [0.5, 0.5],
             origin: [0.5, 0.5],
             transform: function() {
-                return Transform.translate(0, this.initialY, 0);
+                if (this.initialY > -300 || this.initialY < -900) {
+                    return Transform.translate(0, 0, 0);
+                } else {
+                    return Transform.translate(0, this.initialY+300, 0);
+                } 
             }.bind(demoActor)
         });
 
@@ -100,6 +102,7 @@ define(function(require, exports, module) {
         demoActor.addModifier(opacityModifier);
 
         this.add(demoActor);
+
     }
 
     module.exports = StageView;

@@ -44,7 +44,6 @@ define(function(require, exports, module) {
     function moveWithScroll(data) {
         // this.initialModifier.transformFrom(Transform.translate(0, data.delta, 0));
         this.initialY += data.delta;
-        window.console.log('Actor - Scroll Updated');
     }
 
     module.exports = ActorView;
