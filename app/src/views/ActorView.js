@@ -4,6 +4,7 @@ define(function(require, exports, module) {
     var Surface       = require('famous/core/Surface');
     var Modifier      = require('famous/core/Modifier');
     var Transform     = require('famous/core/Transform');
+    var ModifierChain = require('famous/modifiers/ModifierChain');
 
     function ActorView() {
         View.apply(this, arguments);
@@ -15,6 +16,8 @@ define(function(require, exports, module) {
     ActorView.DEFAULT_OPTIONS = {
 
     };
+
+    
 
     ActorView.prototype = Object.create(View.prototype);
     ActorView.prototype.constructor = ActorView;
@@ -28,7 +31,9 @@ define(function(require, exports, module) {
             }
         });
 
-        this.initialModifier = new Modifier({
+        this.demoModifierChain = new ModifierChain();
+
+        this.translateModifier = new Modifier({
             align: [0.5, 0.5],
             origin: [0.5, 0.5],
             transform: function() {
@@ -36,7 +41,16 @@ define(function(require, exports, module) {
             }.bind(this)
         });
 
-        this.add(this.initialModifier).add(this.mainSurface);
+        this.opacityModifier = new Modifier({
+          opacity: function () {
+            return Math.max(0, -this.initialY / 1000);
+          }.bind(this)
+        });
+
+        this.demoModifierChain.addModifier(this.opacityModifier);
+        this.demoModifierChain.addModifier(this.translateModifier);
+
+        this.add(this.demoModifierChain).add(this.mainSurface);
 
         this._eventInput.on('ScrollUpdated', moveWithScroll.bind(this));
     }
