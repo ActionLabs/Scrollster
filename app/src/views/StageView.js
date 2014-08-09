@@ -88,7 +88,7 @@ define(function(require, exports, module) {
                     return Transform.translate(0, 0, 0);
                 } else {
                     return Transform.translate(0, this.initialY+300, 0);
-                } 
+                }
             }.bind(demoActor)
         });
 
@@ -103,6 +103,31 @@ define(function(require, exports, module) {
 
         this.add(demoActor);
 
+        // **** second demonstraton actor
+
+        var demoActor2 = new ActorView();
+
+        demoActor2.mainSurface.pipe(this.sync);
+        demoActor2.subscribe(this._eventOutput);
+
+        var translateModifier2 = new Modifier({
+            align: [0.10, .75],
+            origin: [1.0, 0.0],
+            transform: function() {
+                return Transform.translate(-this.initialY*50, this.initialY * 8, 0);
+            }.bind(demoActor2)
+        });
+
+        var spinModifier2 = new Modifier({
+            transform: function() {
+                return Transform.rotateY(Math.abs(this.initialY/250) * 3.1415962);
+            }.bind(demoActor2)
+        });
+
+        demoActor2.addModifier(translateModifier2);
+        demoActor2.addModifier(spinModifier2);
+
+        this.add(demoActor2);
     }
 
     module.exports = StageView;
