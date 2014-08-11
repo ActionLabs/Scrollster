@@ -44,18 +44,6 @@ define(function(require, exports, module) {
         this.mainSurface = newSurface;
     };
 
-    ActorView.prototype.storePosition = function(align) {
-        if (!this.position) this.position = {};
-
-        // Get it's initial position
-        this.position.align = align;
-        var alignX = this.position.align[0];
-        var alignY = this.position.align[1];
-
-        // Convert that position into pixels based on the window's size
-        this.position.pixels = [alignX * window.innerWidth, alignY * window.innerHeight];
-    };
-
     ActorView.prototype.setPositionRatio = function(newX, newY) {
         this.xPosition = newX;
         this.yPosition = newY;
