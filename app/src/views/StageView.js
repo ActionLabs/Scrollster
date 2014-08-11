@@ -1,5 +1,8 @@
 define(function(require, exports, module) {
     'use strict';
+    var Engine        = require('famous/core/Engine');
+    var Timer         = require('famous/utilities/Timer');
+
     var View          = require('famous/core/View');
     var Surface       = require('famous/core/Surface');
     var Modifier      = require('famous/core/Modifier');
@@ -26,6 +29,7 @@ define(function(require, exports, module) {
         _setupScrollInfoSurface.call(this);
         _handleScroll.call(this);
         _createDemoActor.call(this);
+        _setupArrowKeyBreakpoints.call(this, [50, 100], 10);
     }
 
     StageView.DEFAULT_OPTIONS = {
@@ -71,6 +75,58 @@ define(function(require, exports, module) {
         }.bind(this));
 
         this.sync.on('end', function(data) {
+        }.bind(this));
+    }
+
+    function _setupArrowKeyBreakpoints(breakpoints, speed) {
+        this._arrowData = {};
+        this._arrowData.breakpoints = [0].concat(breakpoints);
+        this._arrowData.index = 0;
+        this._arrowData.speed = speed;
+
+        Engine.on('keydown', function(e) {
+            // If movement is already in progress, do nothing. TODO: enable cancelling movement
+            if (this._arrowData.interval) return;
+            // Up arrow key 
+            if (e.keyCode === 38) {
+                // Decrement index if not at top of page
+                if (this._arrowData.index > 0) this._arrowData.index--;
+                this._arrowData.interval = Timer.setInterval(function() {
+                    if (this.worldScrollValue === this._arrowData.breakpoints[this._arrowData.index]) {
+                        Timer.clear(this._arrowData.interval);
+                        delete this._arrowData.interval;
+                    } else {
+                        if (this.worldScrollValue > this._arrowData.breakpoints[this._arrowData.index]) {
+                            this.worldScrollValue--;
+                            this.scrollInfo.setContent('Scroll Value: ' + this.worldScrollValue);
+                            this._eventOutput.emit('ScrollUpdated', {delta: 1});
+                        } else {
+                            Timer.clear(this._arrowData.interval);
+                            delete this._arrowData.interval;
+                        }
+                    }
+                }.bind(this), this._arrowData.speed);
+
+            // Down arrow key
+            } else if (e.keyCode === 40) {
+                // Increment index if not at last breakpoint
+                if (this._arrowData.index !== this._arrowData.breakpoints.length - 1) this._arrowData.index++;
+                this._arrowData.interval = Timer.setInterval(function() {
+                    if (this.worldScrollValue === this._arrowData.breakpoints[this._arrowData.index]) {
+                        Timer.clear(this._arrowData.interval);
+                        delete this._arrowData.interval;
+                    } else {
+                        if (this.worldScrollValue < this._arrowData.breakpoints[this._arrowData.index]) {
+                            this.worldScrollValue++;
+                            this.scrollInfo.setContent('Scroll Value: ' + this.worldScrollValue);
+                            this._eventOutput.emit('ScrollUpdated', {delta: -1});
+                        } else {
+                            Timer.clear(this._arrowData.interval);
+                            delete this._arrowData.interval;
+                        }
+                    }
+                }.bind(this), this._arrowData.speed);
+            }
         }.bind(this));
     }
 
