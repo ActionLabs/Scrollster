@@ -79,6 +79,7 @@ define(function(require, exports, module) {
         var demoActor = new ActorView();
 
         demoActor.setPositionRatio(0.5, 1);
+        // demoActor.setPositionPixels(900, 100);
 
         var opacityModifier = new Modifier({
             opacity: function() {
@@ -86,7 +87,16 @@ define(function(require, exports, module) {
             }.bind(demoActor)
         });
 
-        demoActor.addModifier(opacityModifier);
+        // demoActor.addModifier(opacityModifier);
+
+        demoActor.destination = {
+            x: 150,
+            y: 150,
+            stopScroll: -1500,
+            startScroll: -100
+        };
+
+        demoActor.scaleY = 0.25;
 
         demoActor.activate(this.sync);
         demoActor.subscribe(this._eventOutput);
