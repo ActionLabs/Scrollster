@@ -13,6 +13,8 @@ define(function(require, exports, module) {
         this.scrollProgress = 0;
         this.xPosition = this.options.xPosition;
         this.yPosition = this.options.yPosition;
+        this.scaleX = this.options.scaleX;
+        this.scaleY = this.options.scaleY;
 
         _addPositionModifier.call(this);
         _listenToScroll.call(this);
@@ -21,6 +23,8 @@ define(function(require, exports, module) {
     ActorView.DEFAULT_OPTIONS = {
         xPosition: 0.5,
         yPosition: 0.5,
+        scaleX: 0,
+        scaleY: 1,
         surfaceOptions: {
             size: [300, 300],
             content: 'This is a demo',
@@ -84,7 +88,7 @@ define(function(require, exports, module) {
 
     function _updateScrollValue(data) {
         this.scrollProgress += data.delta;
-        this.incrementPosition(0, UnitConverter.pixelsToRatioY(data.delta));
+        this.incrementPosition(UnitConverter.pixelsToRatioX(data.delta) * this.scaleX, UnitConverter.pixelsToRatioY(data.delta) * this.scaleY);
     }
 
     module.exports = ActorView;

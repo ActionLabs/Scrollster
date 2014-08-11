@@ -11,6 +11,7 @@ define(function(require, exports, module) {
     var ScrollSync    = require('famous/inputs/ScrollSync');
 
     var ActorView     = require('views/ActorView');
+    var UnitConverter = require('tools/UnitConverter');
 
     GenericSync.register({
         'mouse': MouseSync,
@@ -107,6 +108,8 @@ define(function(require, exports, module) {
                 backfaceVisibility: 'visible'
             }
         });
+
+        demoActor2.scaleX = -2;
 
         demoActor2.addSurface(demoActor2Surface);
 
