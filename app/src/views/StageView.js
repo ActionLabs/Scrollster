@@ -11,6 +11,7 @@ define(function(require, exports, module) {
     var ScrollSync    = require('famous/inputs/ScrollSync');
 
     var ActorView     = require('views/ActorView');
+    var UnitConverter = require('tools/UnitConverter');
 
     GenericSync.register({
         'mouse': MouseSync,
@@ -77,25 +78,25 @@ define(function(require, exports, module) {
     function _createDemoActor() {
         var demoActor = new ActorView();
 
-        var translateModifier = new Modifier({
-            align: [0.5, 0.5],
-            origin: [0.5, 0.5],
-            transform: function() {
-                if (this.initialY > -300 || this.initialY < -900) return Transform.translate(0, 0, 0);
-
-                else return Transform.translate(0, this.initialY+300, 0);
-
-            }.bind(demoActor)
-        });
+        demoActor.setPositionRatio(0.5, 1);
+        // demoActor.setPositionPixels(900, 100);
 
         var opacityModifier = new Modifier({
             opacity: function() {
-                return Math.max(0, -this.initialY / 100);
+                return Math.max(0, -this.scrollProgress / 100);
             }.bind(demoActor)
         });
 
-        demoActor.addModifier(translateModifier);
-        demoActor.addModifier(opacityModifier);
+        // demoActor.addModifier(opacityModifier);
+
+        demoActor.destination = {
+            x: 150,
+            y: 150,
+            stopScroll: -1500,
+            startScroll: -100
+        };
+
+        demoActor.scaleY = 0.25;
 
         demoActor.activate(this.sync);
         demoActor.subscribe(this._eventOutput);
@@ -105,6 +106,7 @@ define(function(require, exports, module) {
         // **** second demonstraton actor
 
         var demoActor2 = new ActorView();
+        window.demoActor2 = demoActor2;
 
         var demoActor2Surface = new Surface({
             size: [200, 200],
@@ -117,24 +119,19 @@ define(function(require, exports, module) {
             }
         });
 
+        demoActor2.scaleX = -2;
+
         demoActor2.addSurface(demoActor2Surface);
 
-        var translateModifier2 = new Modifier({
-            align: [0.10, .75],
-            origin: [1.0, 0.0],
-            transform: function() {
-                return Transform.translate(-this.initialY*7, this.initialY * 2, 0);
-            }.bind(demoActor2)
-        });
+        demoActor2.setPositionPixels(100, 700);
 
         var spinModifier2 = new Modifier({
             transform: function() {
-                return Transform.rotateY(Math.abs(this.initialY/150) * 3.1415962);
+                return Transform.rotateY((this.scrollProgress/150) * 3.1415962);
             }.bind(demoActor2)
         });
 
         demoActor2.addModifier(spinModifier2);
-        demoActor2.addModifier(translateModifier2);
 
         demoActor2.activate(this.sync);
         demoActor2.subscribe(this._eventOutput);
