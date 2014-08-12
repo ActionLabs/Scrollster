@@ -19,5 +19,13 @@ define(function(require, exports, module) {
       return pixels / window.innerHeight; // TODO: Change this to be width of container which may not be window.
     };
 
+    UnitConverter.degreesToRadians = function(degrees) {
+      return degrees * (Math.PI / 180);
+    };
+
+    UnitConverter.radiansToDegrees = function(radians) {
+      return radians * (180 / Math.PI);
+    };
+
     module.exports = UnitConverter;
 });
