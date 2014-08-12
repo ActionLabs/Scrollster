@@ -17,6 +17,7 @@ define(function(require, exports, module) {
     var UnitConverter = require('tools/UnitConverter');
     var PositionModifier = require('modifiers/PositionModifier');
     var MoveToModifier   = require('modifiers/MoveToModifier');
+    var RotateToModifier   = require('modifiers/RotateToModifier');
 
     GenericSync.register({
         'mouse': MouseSync,
@@ -140,7 +141,9 @@ define(function(require, exports, module) {
         demoActor.setPositionPixels(150, 150);
         var positionModifier = new PositionModifier(demoActor, 0, -1, 0, 600);
         var moveToModifier = new MoveToModifier(demoActor, 600, 1000, 720, 450);
+        var rotateToModifier = new RotateToModifier(demoActor, 0, 1000, 'y', 540);
 
+        demoActor.addModifier(rotateToModifier);
         demoActor.addModifier(positionModifier);
         demoActor.addModifier(moveToModifier);
         // demoActor.setPositionPixels(900, 100);
