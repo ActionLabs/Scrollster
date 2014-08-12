@@ -19,26 +19,30 @@ define(function(require, exports, module) {
     PositionModifier.prototype.constructor = PositionModifier;
 
     PositionModifier.prototype.checkAndUpdate = function(scrollPosition, delta) {
-        var newDelta = 0;
         if ((this.scrollStart === undefined ||
             scrollPosition >= this.scrollStart) &&
             (this.scrollStop === undefined ||
             scrollPosition <= this.scrollStop)) {
             // Inside scroll range
             this.scrollState = 'active';
+            var currPixelX = UnitConverter.ratioXtoPixels(this.actor.xPosition);
+            var currPixelY = UnitConverter.ratioYtoPixels(this.actor.yPosition);
+
+            if (!this.startX) this.startX = currPixelX;
+            if (!this.startY) this.startY = currPixelY;
             _incrementPosition.call(this, delta);
         } else if (((scrollPosition - delta) <= this.scrollStop) &&
                    (scrollPosition > this.scrollStop)) {
             // Passing out of scroll range.
             this.scrollState = 'upper';
-            newDelta = this.scrollStop - (scrollPosition - delta);
-            _incrementPosition.call(this, newDelta);
+            var endX = this.startX + ((this.scrollStop - this.scrollStop) * this.scaleX);
+            var endY = this.startY + ((this.scrollStop - this.scrollStop) * this.scaleY);
+            this.actor.setPositionPixels(endX, endY);
         } else if (((scrollPosition - delta) >= this.scrollStart) &&
                    (scrollPosition < this.scrollStart)) {
             // Passing out of scroll range.
             this.scrollState = 'lower';
-            newDelta = this.scrollStart - (scrollPosition - delta);
-            _incrementPosition.call(this, newDelta);
+            this.actor.setPositionPixels(this.startX, this.startY);
         } else {
             // out of range
             this.scrollState = 'inactive';
