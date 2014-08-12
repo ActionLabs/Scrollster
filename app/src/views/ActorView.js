@@ -30,7 +30,8 @@ define(function(require, exports, module) {
             properties: {
                 backgroundColor: 'blue',
                 fontSize: '4em',
-                padding: '.5em'
+                padding: '.5em',
+                backfaceVisibility: 'visible'
             }
         }
     };
