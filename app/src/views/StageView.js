@@ -16,6 +16,7 @@ define(function(require, exports, module) {
     var ActorView     = require('views/ActorView');
     var UnitConverter = require('tools/UnitConverter');
     var PositionModifier = require('modifiers/PositionModifier');
+    var MoveToModifier   = require('modifiers/MoveToModifier');
 
     GenericSync.register({
         'mouse': MouseSync,
@@ -136,10 +137,12 @@ define(function(require, exports, module) {
     function _createDemoActor() {
         var demoActor = new ActorView();
 
-        demoActor.setPositionRatio(0.5, 1);
-        var positionModifier = new PositionModifier(demoActor, 0, 1);
+        demoActor.setPositionPixels(150, 150);
+        var positionModifier = new PositionModifier(demoActor, 0, -1, 0, 600);
+        var moveToModifier = new MoveToModifier(demoActor, 600, 1000, 720, 450);
 
         demoActor.addModifier(positionModifier);
+        demoActor.addModifier(moveToModifier);
         // demoActor.setPositionPixels(900, 100);
 
         var opacityModifier = new Modifier({
@@ -150,12 +153,12 @@ define(function(require, exports, module) {
 
         // demoActor.addModifier(opacityModifier);
 
-        demoActor.destination = {
-            x: 150,
-            y: 150,
-            stopScroll: -1500,
-            startScroll: -100
-        };
+        // demoActor.destination = {
+        //     x: 150,
+        //     y: 150,
+        //     stopScroll: -1500,
+        //     startScroll: -100
+        // };
 
         demoActor.activate(this.sync);
         demoActor.subscribe(this._eventOutput);
