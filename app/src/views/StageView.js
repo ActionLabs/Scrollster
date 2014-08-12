@@ -30,7 +30,7 @@ define(function(require, exports, module) {
         _setupScrollInfoSurface.call(this);
         _handleScroll.call(this);
         _createDemoActor.call(this);
-        _setupArrowKeyBreakpoints.call(this, [50, 100], 10);
+        _setupArrowKeyBreakpoints.call(this, [500, 1000, 1500], 4, 5);
     }
 
     StageView.DEFAULT_OPTIONS = {
@@ -79,7 +79,7 @@ define(function(require, exports, module) {
         }.bind(this));
     }
 
-    function _setupArrowKeyBreakpoints(breakpoints, speed) {
+    function _setupArrowKeyBreakpoints(breakpoints, speed, step) {
         this._arrowData = {};
         this._arrowData.breakpoints = [0].concat(breakpoints);
         this._arrowData.index = 0;
@@ -98,9 +98,9 @@ define(function(require, exports, module) {
                         delete this._arrowData.interval;
                     } else {
                         if (this.worldScrollValue > this._arrowData.breakpoints[this._arrowData.index]) {
-                            this.worldScrollValue--;
+                            this.worldScrollValue -= step;
                             this.scrollInfo.setContent('Scroll Value: ' + this.worldScrollValue);
-                            this._eventOutput.emit('ScrollUpdated', {delta: 1});
+                            this._eventOutput.emit('ScrollUpdated', {delta: step});
                         } else {
                             Timer.clear(this._arrowData.interval);
                             delete this._arrowData.interval;
@@ -118,9 +118,9 @@ define(function(require, exports, module) {
                         delete this._arrowData.interval;
                     } else {
                         if (this.worldScrollValue < this._arrowData.breakpoints[this._arrowData.index]) {
-                            this.worldScrollValue++;
+                            this.worldScrollValue += step;
                             this.scrollInfo.setContent('Scroll Value: ' + this.worldScrollValue);
-                            this._eventOutput.emit('ScrollUpdated', {delta: -1});
+                            this._eventOutput.emit('ScrollUpdated', {delta: -step});
                         } else {
                             Timer.clear(this._arrowData.interval);
                             delete this._arrowData.interval;
