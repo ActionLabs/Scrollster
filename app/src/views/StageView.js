@@ -15,6 +15,8 @@ define(function(require, exports, module) {
 
     var ActorView     = require('views/ActorView');
     var UnitConverter = require('tools/UnitConverter');
+    var PositionModifier = require('modifiers/PositionModifier');
+    var MoveToModifier   = require('modifiers/MoveToModifier');
 
     GenericSync.register({
         'mouse': MouseSync,
@@ -70,9 +72,10 @@ define(function(require, exports, module) {
         this.scrollInfo.pipe(this.sync);
 
         this.sync.on('update', function(data) {
-            this.worldScrollValue += data.delta;
+            // Invert delta so scrolling up is positive.
+            this.worldScrollValue -= data.delta;
             this.scrollInfo.setContent('Scroll Value: ' + this.worldScrollValue);
-            this._eventOutput.emit('ScrollUpdated', {delta: data.delta});
+            this._eventOutput.emit('ScrollUpdated', {delta: -data.delta});
         }.bind(this));
 
         this.sync.on('end', function(data) {
@@ -134,7 +137,12 @@ define(function(require, exports, module) {
     function _createDemoActor() {
         var demoActor = new ActorView();
 
-        demoActor.setPositionRatio(0.5, 1);
+        demoActor.setPositionPixels(150, 150);
+        var positionModifier = new PositionModifier(demoActor, 0, -1, 0, 600);
+        var moveToModifier = new MoveToModifier(demoActor, 600, 1000, 720, 450);
+
+        demoActor.addModifier(positionModifier);
+        demoActor.addModifier(moveToModifier);
         // demoActor.setPositionPixels(900, 100);
 
         var opacityModifier = new Modifier({
@@ -145,14 +153,12 @@ define(function(require, exports, module) {
 
         // demoActor.addModifier(opacityModifier);
 
-        demoActor.destination = {
-            x: 150,
-            y: 150,
-            stopScroll: -1500,
-            startScroll: -100
-        };
-
-        demoActor.scaleY = 0.25;
+        // demoActor.destination = {
+        //     x: 150,
+        //     y: 150,
+        //     stopScroll: -1500,
+        //     startScroll: -100
+        // };
 
         demoActor.activate(this.sync);
         demoActor.subscribe(this._eventOutput);
@@ -161,38 +167,38 @@ define(function(require, exports, module) {
 
         // **** second demonstraton actor
 
-        var demoActor2 = new ActorView();
-        window.demoActor2 = demoActor2;
+        // var demoActor2 = new ActorView();
+        // window.demoActor2 = demoActor2;
 
-        var demoActor2Surface = new Surface({
-            size: [200, 200],
-            content: 'Actor Two',
-            properties: {
-                backgroundColor: 'red',
-                fontSize: '4em',
-                padding: '.5em',
-                backfaceVisibility: 'visible'
-            }
-        });
+        // var demoActor2Surface = new Surface({
+        //     size: [200, 200],
+        //     content: 'Actor Two',
+        //     properties: {
+        //         backgroundColor: 'red',
+        //         fontSize: '4em',
+        //         padding: '.5em',
+        //         backfaceVisibility: 'visible'
+        //     }
+        // });
 
-        demoActor2.scaleX = -2;
+        // demoActor2.scaleX = -2;
 
-        demoActor2.addSurface(demoActor2Surface);
+        // demoActor2.addSurface(demoActor2Surface);
 
-        demoActor2.setPositionPixels(100, 700);
+        // demoActor2.setPositionPixels(100, 700);
 
-        var spinModifier2 = new Modifier({
-            transform: function() {
-                return Transform.rotateY((this.scrollProgress/150) * 3.1415962);
-            }.bind(demoActor2)
-        });
+        // var spinModifier2 = new Modifier({
+        //     transform: function() {
+        //         return Transform.rotateY((this.scrollProgress/150) * 3.1415962);
+        //     }.bind(demoActor2)
+        // });
 
-        demoActor2.addModifier(spinModifier2);
+        // demoActor2.addModifier(spinModifier2);
 
-        demoActor2.activate(this.sync);
-        demoActor2.subscribe(this._eventOutput);
+        // demoActor2.activate(this.sync);
+        // demoActor2.subscribe(this._eventOutput);
 
-        this.add(demoActor2);
+        // this.add(demoActor2);
     }
 
     module.exports = StageView;
