@@ -8,6 +8,7 @@ define(function(require, exports, module) {
         this.actor = actor;
         this.scrollStart  = scrollStart;
         this.scrollStop = scrollStop;
+        this.scrollRange = scrollStop - scrollStart;
         this.theta = 0;
         this.startTheta = 0;
         this.stopTheta = UnitConverter.degreesToRadians(angleInDegrees);
@@ -28,7 +29,7 @@ define(function(require, exports, module) {
             scrollPosition <= this.scrollStop)) {
             // Inside scroll range
             this.rotateState = 'active';
-            var progress = (scrollPosition - this.scrollStart) / (this.scrollStop - this.scrollStart);
+            var progress = (scrollPosition - this.scrollStart) / (this.scrollRange);
             this.theta = this.stopTheta * progress;
         } else if (((scrollPosition - delta) <= this.scrollStop) &&
                    (scrollPosition > this.scrollStop)) {

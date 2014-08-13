@@ -8,6 +8,7 @@ define(function(require, exports, module) {
         this.actor = actor;
         this.scrollStart  = scrollStart;
         this.scrollStop = scrollStop;
+        this.scrollRange = scrollStop - scrollStart;
         this.scale = scale;
         this.theta = 0;
         this.rotateState = 'inactive';
@@ -27,13 +28,12 @@ define(function(require, exports, module) {
             scrollPosition <= this.scrollStop)) {
             // Inside scroll range
             this.rotateState = 'active';
-            this.theta = UnitConverter.degreesToRadians ((scrollPosition - this.scrollStart) * this.scale);
+            this.theta = UnitConverter.degreesToRadians((scrollPosition - this.scrollStart) * this.scale);
         } else if (((scrollPosition - delta) <= this.scrollStop) &&
                    (scrollPosition > this.scrollStop)) {
             // Passing out of scroll range.
             this.rotateState = 'upper';
-            var range = this.scrollStop - this.scrollStart;
-            this.theta = UnitConverter.degreesToRadians(range * this.scale);
+            this.theta = UnitConverter.degreesToRadians(this.scrollRange * this.scale);
         } else if (((scrollPosition - delta) >= this.scrollStart) &&
                    (scrollPosition < this.scrollStart)) {
             // Passing out of scroll range.

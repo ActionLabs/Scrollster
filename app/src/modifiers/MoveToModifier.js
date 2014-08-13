@@ -7,6 +7,7 @@ define(function(require, exports, module) {
         this.actor = actor;
         this.scrollStart  = scrollStart;
         this.scrollStop = scrollStop;
+        this.scrollRange = scrollStop - scrollStart;
         this.pixelsStopX = pixelsStopX;
         this.pixelsStopY = pixelsStopY;
         this.scrollState = 'inactive';
@@ -32,10 +33,8 @@ define(function(require, exports, module) {
             if (!this.startX) this.startX = currPixelX;
             if (!this.startY) this.startY = currPixelY;
 
-            var scrollRange = this.scrollStop - this.scrollStart;
-
-            var newPixelX = ((this.pixelsStopX - this.startX) / scrollRange) * (scrollPosition - this.scrollStart);
-            var newPixelY = ((this.pixelsStopY - this.startY) / scrollRange) * (scrollPosition - this.scrollStart);
+            var newPixelX = ((this.pixelsStopX - this.startX) / this.scrollRange) * (scrollPosition - this.scrollStart);
+            var newPixelY = ((this.pixelsStopY - this.startY) / this.scrollRange) * (scrollPosition - this.scrollStart);
 
             this.actor.setPositionPixels(this.startX + newPixelX, this.startY + newPixelY);
 
