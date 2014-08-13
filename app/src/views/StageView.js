@@ -164,14 +164,14 @@ define(function(require, exports, module) {
         demoActor.setPositionPixels(150, 150);
         var positionModifier = actionFactory.makeAction(demoActor, 'position', 0, 599, { scaleX: 0, scaleY: -1});
         var moveToModifier = actionFactory.makeAction(demoActor, 'moveTo', 600, 1000, {location: [720, 450]});
-        var rotateToModifier = actionFactory.makeAction(demoActor, 'rotateTo', 0, 1000, {axis: 'y', angleInDegrees: 540});
-        // var rotateToModifier = actionFactory.makeAction(demoActor, 'rotate', 0, 1000, {axis: 'y', scale: 0.005});
-        var opacityModifier = actionFactory.makeAction(demoActor, 'opacity', 100, 200);
+        // var rotateToModifier = actionFactory.makeAction(demoActor, 'rotateTo', 0, 1000, {axis: 'y', angleInDegrees: 540});
+        var rotateToModifier = actionFactory.makeAction(demoActor, 'rotate', 0, 1800, {axis: 'y', scale: 1});
+        // var opacityModifier = actionFactory.makeAction(demoActor, 'opacity', 100, 200);
 
         demoActor.addModifier(rotateToModifier);
         demoActor.addModifier(positionModifier);
         demoActor.addModifier(moveToModifier);
-        demoActor.addModifier(opacityModifier);
+        // demoActor.addModifier(opacityModifier);
         // demoActor.setPositionPixels(900, 100);
 
         // var opacityModifier = new Modifier({

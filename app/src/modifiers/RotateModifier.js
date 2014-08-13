@@ -1,5 +1,6 @@
 define(function(require, exports, module) {
     'use strict';
+    var UnitConverter = require('tools/UnitConverter');
     var Transform     = require('famous/core/Transform');
     var Modifier      = require('famous/core/Modifier');  // Parent class
 
@@ -20,26 +21,24 @@ define(function(require, exports, module) {
     PositionModifier.prototype.constructor = PositionModifier;
 
     PositionModifier.prototype.checkAndUpdate = function(scrollPosition, delta) {
-        var newDelta = 0;
         if ((this.scrollStart === undefined ||
             scrollPosition >= this.scrollStart) &&
             (this.scrollStop === undefined ||
             scrollPosition <= this.scrollStop)) {
             // Inside scroll range
             this.rotateState = 'active';
-            this.theta += delta * this.scale;
+            this.theta = UnitConverter.degreesToRadians ((scrollPosition - this.scrollStart) * this.scale);
         } else if (((scrollPosition - delta) <= this.scrollStop) &&
                    (scrollPosition > this.scrollStop)) {
             // Passing out of scroll range.
             this.rotateState = 'upper';
-            newDelta = this.scrollStop - (scrollPosition - delta);
-            this.theta += newDelta * this.scale;
+            var range = this.scrollStop - this.scrollStart;
+            this.theta = UnitConverter.degreesToRadians(range * this.scale);
         } else if (((scrollPosition - delta) >= this.scrollStart) &&
                    (scrollPosition < this.scrollStart)) {
             // Passing out of scroll range.
             this.rotateState = 'lower';
-            newDelta = this.scrollStart - (scrollPosition - delta);
-            this.theta += newDelta * this.scale;
+            this.theta = 0;
         } else {
             // out of range
             this.rotateState = 'inactive';
