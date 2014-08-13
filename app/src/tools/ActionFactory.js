@@ -5,6 +5,7 @@ define(function(require, exports, module) {
     var PositionModifier   = require('modifiers/PositionModifier');
     var RotateModifier     = require('modifiers/RotateModifier');
     var RotateToModifier   = require('modifiers/RotateToModifier');
+    var ScaleModifier      = require('modifiers/ScaleModifier');
 
     function ActionFactory() {
           // Container to store created actors by name.
@@ -24,6 +25,8 @@ define(function(require, exports, module) {
             newAction = new RotateModifier(actor, scrollStart, scrollStop, properties.axis, properties.scale);
         } else if (type === 'opacity') {
             newAction = new OpacityModifier(scrollStart, scrollStop, properties ? properties.fadeOut : undefined);
+        } else if (type === 'scale') {
+            newAction = new ScaleModifier(scrollStart, scrollStop, properties.changeRatioX, properties.changeRatioY);
         }
 
         _saveAction.call(this, actor, newAction);
