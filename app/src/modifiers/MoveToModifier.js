@@ -48,7 +48,9 @@ define(function(require, exports, module) {
                    (scrollPosition < this.scrollStart)) {
             // Passing out of scroll range.
             this.scrollState = 'lower';
-            this.actor.setPositionPixels(this.startX, this.startY);
+            if (this.startX !== undefined && this.startY !== undefined){
+                this.actor.setPositionPixels(this.startX, this.startY);
+            }
         } else {
             // out of range
             this.scrollState = 'inactive';

@@ -56,6 +56,7 @@ define(function(require, exports, module) {
     ActorView.prototype.setPositionPixels = function(newX, newY) {
         this.xPosition = UnitConverter.pixelsToRatioX(newX);
         this.yPosition = UnitConverter.pixelsToRatioY(newY);
+        window.console.log('[' + newX + ',' + newY + ']');
     };
 
     ActorView.prototype.incrementPosition = function(incrX, incrY) {

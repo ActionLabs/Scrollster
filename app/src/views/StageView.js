@@ -151,8 +151,8 @@ define(function(require, exports, module) {
                                                 undefined,
                                                 [300, 300]);
 
-        demoActor.setPositionPixels(150, 150);
-        var positionModifier = new PositionModifier(demoActor, 0, -1, 0, 600);
+        demoActor.setPositionPixels(1050, 150);
+        var positionModifier = new PositionModifier(demoActor, 0, -1, 0, 599);
         var moveToModifier = new MoveToModifier(demoActor, 600, 1000, 720, 450);
         var rotateToModifier = new RotateToModifier(demoActor, 0, 1000, 'y', 540);
 
