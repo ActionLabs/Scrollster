@@ -28,7 +28,7 @@ define(function(require, exports, module) {
             });
         }
 
-        var newActor = new ActorView();
+        var newActor = new ActorView({name: name});
         newActor.addSurface(newSurface);
 
         this.actors[name] = newActor;
