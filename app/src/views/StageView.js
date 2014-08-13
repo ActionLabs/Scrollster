@@ -21,6 +21,7 @@ define(function(require, exports, module) {
     var MoveToModifier   = require('modifiers/MoveToModifier');
     var RotateToModifier   = require('modifiers/RotateToModifier');
     var OpacityModifier  = require('modifiers/OpacityModifier');
+    var ScaleModifier    = require('modifiers/ScaleModifier');
 
     GenericSync.register({
         'mouse': MouseSync,
@@ -162,12 +163,15 @@ define(function(require, exports, module) {
                                                 [300, 300]);
 
         demoActor.setPositionPixels(150, 150);
+        demoActor.activate(this.sync);
         var positionModifier = actionFactory.makeAction(demoActor, 'position', 0, 599, { scaleX: 0, scaleY: -1});
         var moveToModifier = actionFactory.makeAction(demoActor, 'moveTo', 600, 1000, {location: [720, 450]});
         var rotateToModifier = actionFactory.makeAction(demoActor, 'rotateTo', 0, 1000, {axis: 'y', angleInDegrees: 540});
         // var rotateToModifier = actionFactory.makeAction(demoActor, 'rotate', 0, 1800, {axis: 'y', scale: 1});
         var opacityModifier = actionFactory.makeAction(demoActor, 'opacity', 100, 600);
+        var scaleModifier = new ScaleModifier(800, 1000, 1, 5);
 
+        demoActor.addModifier(scaleModifier);
         demoActor.addModifier(rotateToModifier);
         demoActor.addModifier(positionModifier);
         demoActor.addModifier(moveToModifier);
@@ -189,7 +193,6 @@ define(function(require, exports, module) {
         //     startScroll: -100
         // };
 
-        demoActor.activate(this.sync);
         demoActor.subscribe(this._eventOutput);
 
         this.add(demoActor);
