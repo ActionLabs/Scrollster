@@ -5,23 +5,11 @@ define(function(require, exports, module) {
 
     var View          = require('famous/core/View');
     var Surface       = require('famous/core/Surface');
-    var Modifier      = require('famous/core/Modifier');
-    var Transform     = require('famous/core/Transform');
 
     var GenericSync   = require('famous/inputs/GenericSync');
     var MouseSync     = require('famous/inputs/MouseSync');
     var TouchSync     = require('famous/inputs/TouchSync');
     var ScrollSync    = require('famous/inputs/ScrollSync');
-
-    var ActorView     = require('views/ActorView');
-    var UnitConverter = require('tools/UnitConverter');
-    var ActorFactory = require('tools/ActorFactory');
-    var ActionFactory = require('tools/ActionFactory');
-    var PositionModifier = require('modifiers/PositionModifier');
-    var MoveToModifier   = require('modifiers/MoveToModifier');
-    var RotateToModifier   = require('modifiers/RotateToModifier');
-    var OpacityModifier  = require('modifiers/OpacityModifier');
-    var ScaleModifier    = require('modifiers/ScaleModifier');
 
     GenericSync.register({
         'mouse': MouseSync,
@@ -36,7 +24,6 @@ define(function(require, exports, module) {
         _setupScrollRecieverSurface.call(this);
         _setupScrollInfoSurface.call(this);
         _handleScroll.call(this);
-        _createDemoActor.call(this);
         _setupArrowKeyBreakpoints.call(this, [300, 500, 700, 900, 1000], 4, 10);
     }
 
@@ -46,6 +33,12 @@ define(function(require, exports, module) {
 
     StageView.prototype = Object.create(View.prototype);
     StageView.prototype.constructor = StageView;
+
+    StageView.prototype.addActor = function(newActor) {
+        newActor.activate(this.sync);
+        newActor.subscribe(this._eventOutput);
+        this.add(newActor);
+    };
 
     function _setupScrollRecieverSurface() {
         this.scrollRecieverSurface = new Surface({
@@ -95,12 +88,12 @@ define(function(require, exports, module) {
         this._arrowData.speed = speed;
 
         Engine.on('keydown', function(e) {
-            // If movement is already in progress, cancel interval 
+            // If movement is already in progress, cancel interval
             if (this._arrowData.interval) {
                 Timer.clear(this._arrowData.interval);
                 delete this._arrowData.interval;
-            } 
-            // Up arrow key 
+            }
+            // Up arrow key
             if (e.keyCode === 38) {
                 // Decrement index if not at top of page
                 if (this._arrowData.index > 0) this._arrowData.index--;
@@ -143,94 +136,6 @@ define(function(require, exports, module) {
                 }.bind(this), this._arrowData.speed);
             }
         }.bind(this));
-    }
-
-    function _createDemoActor() {
-        var actorFactory = new ActorFactory();
-        var actionFactory = new ActionFactory();
-
-        var demoActor = actorFactory.makeActor('Demo Actor',
-                                                'image',
-                                                'content/images/famous_logo.png',
-                                                {
-                                                    // backgroundColor: '#777777',
-                                                    fontSize: '2em',
-                                                    padding: '.5em',
-                                                    backfaceVisibility: 'visible',
-                                                    zIndex: '10'
-                                                },
-                                                undefined,
-                                                [300, 300]);
-
-        demoActor.setPositionPixels(150, 150);
-        demoActor.activate(this.sync);
-        var positionModifier = actionFactory.makeAction(demoActor, 'position', 0, 599, { scaleX: 0, scaleY: -1});
-        var moveToModifier = actionFactory.makeAction(demoActor, 'moveTo', 600, 1000, {location: [720, 450]});
-        var rotateToModifier = actionFactory.makeAction(demoActor, 'rotateTo', 0, 1000, {axis: 'y', angleInDegrees: 540});
-        // var rotateToModifier = actionFactory.makeAction(demoActor, 'rotate', 0, 1800, {axis: 'y', scale: 1});
-        var opacityModifier = actionFactory.makeAction(demoActor, 'opacity', 100, 600, {fadeOut: false});
-        var scaleModifier = actionFactory.makeAction(demoActor, 'scale', 800, 1000, {changeRatioX: 1, changeRatioY: 5});
-
-        demoActor.addModifier(scaleModifier);
-        demoActor.addModifier(rotateToModifier);
-        demoActor.addModifier(positionModifier);
-        demoActor.addModifier(moveToModifier);
-        demoActor.addModifier(opacityModifier);
-        // demoActor.setPositionPixels(900, 100);
-
-        // var opacityModifier = new Modifier({
-        //     opacity: function() {
-        //         return Math.max(0, -this.scrollProgress / 100);
-        //     }.bind(demoActor)
-        // });
-
-        // demoActor.addModifier(opacityModifier);
-
-        // demoActor.destination = {
-        //     x: 150,
-        //     y: 150,
-        //     stopScroll: -1500,
-        //     startScroll: -100
-        // };
-
-        demoActor.subscribe(this._eventOutput);
-
-        this.add(demoActor);
-
-        // **** second demonstraton actor
-
-        // var demoActor2 = new ActorView();
-        // window.demoActor2 = demoActor2;
-
-        // var demoActor2Surface = new Surface({
-        //     size: [200, 200],
-        //     content: 'Actor Two',
-        //     properties: {
-        //         backgroundColor: 'red',
-        //         fontSize: '4em',
-        //         padding: '.5em',
-        //         backfaceVisibility: 'visible'
-        //     }
-        // });
-
-        // demoActor2.scaleX = -2;
-
-        // demoActor2.addSurface(demoActor2Surface);
-
-        // demoActor2.setPositionPixels(100, 700);
-
-        // var spinModifier2 = new Modifier({
-        //     transform: function() {
-        //         return Transform.rotateY((this.scrollProgress/150) * 3.1415962);
-        //     }.bind(demoActor2)
-        // });
-
-        // demoActor2.addModifier(spinModifier2);
-
-        // demoActor2.activate(this.sync);
-        // demoActor2.subscribe(this._eventOutput);
-
-        // this.add(demoActor2);
     }
 
     module.exports = StageView;
