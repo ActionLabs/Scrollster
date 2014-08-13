@@ -20,13 +20,25 @@ define(function(require, exports, module) {
             });
         }
 
-        var newActor = new ActorView();
+        if (type === 'image') {
+            newSurface = new ImageSurface({
+                size: size,
+                content: content,
+                properties: properties
+            });
+        }
+
+        var newActor = new ActorView({name: name});
         newActor.addSurface(newSurface);
 
         this.actors[name] = newActor;
 
         return newActor;
     };
+
+    ActorFactory.prototype.getActor = function(name) {
+        return this.actors[name];
+    }
 
     module.exports = ActorFactory;
 });

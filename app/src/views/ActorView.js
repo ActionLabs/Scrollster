@@ -16,11 +16,13 @@ define(function(require, exports, module) {
         this.scaleX = this.options.scaleX;
         this.scaleY = this.options.scaleY;
         this.destination = this.options.destination;
+        this.name = this.options.name;
 
         _listenToScroll.call(this);
     }
 
     ActorView.DEFAULT_OPTIONS = {
+        name: undefined,
         xPosition: 0.5,
         yPosition: 0.5,
         destination: undefined,
@@ -56,7 +58,6 @@ define(function(require, exports, module) {
     ActorView.prototype.setPositionPixels = function(newX, newY) {
         this.xPosition = UnitConverter.pixelsToRatioX(newX);
         this.yPosition = UnitConverter.pixelsToRatioY(newY);
-        window.console.log('[' + newX + ',' + newY + ']');
     };
 
     ActorView.prototype.incrementPosition = function(incrX, incrY) {
