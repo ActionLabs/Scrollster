@@ -1,13 +1,12 @@
 define(function(require, exports, module) {
     'use strict'
     var Modifier       = require('famous/core/Modifier');
-    var Transitionable = require('famous/transitions/Transitionable');
 
     function OpacityModifier(scrollStart, scrollStop) {
         this.scrollStart = scrollStart;
         this.scrollStop = scrollStop;
         this.range = scrollStop - scrollStart;
-        this.transitionable = new Transitionable(0);
+        this.opacity = 0;
         _makeModifier.call(this);
         Modifier.call(this, this.modifier);
     }
@@ -19,18 +18,18 @@ define(function(require, exports, module) {
         if (scrollPosition > this.scrollStart &&
             scrollPosition < this.scrollStop) {
 
-            this.transitionable.set(this.transitionable.get() + delta / this.range);
+            this.opacity = (this.opacity + delta / this.range);
         } else if (scrollPosition <= this.scrollStart) {
-            this.transitionable.set(0);
+            this.opacity = 0;
         } else if (scrollPosition >= this.scrollStop) {
-            this.transitionable.set(1);
+            this.opacity = 1;
         }
     };
 
     function _makeModifier() {
         this.modifier = {
             opacity:  function () {
-                return this.transitionable.get()
+                return this.opacity;
             }.bind(this)
         };
     }
