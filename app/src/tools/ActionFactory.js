@@ -29,6 +29,8 @@ define(function(require, exports, module) {
             newAction = new ScaleModifier(scrollStart, scrollStop, properties.changeRatioX, properties.changeRatioY);
         }
 
+        actor.addModifier(newAction);
+
         _saveAction.call(this, actor, newAction);
 
         return newAction;

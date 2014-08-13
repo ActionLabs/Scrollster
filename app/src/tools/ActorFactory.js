@@ -9,7 +9,7 @@ define(function(require, exports, module) {
           this.actors = {};
     }
 
-    ActorFactory.prototype.makeActor = function(name, type, content, properties, zIndex, size, scrollStart, scrollStop) {
+    ActorFactory.prototype.makeActor = function(name, type, content, properties, size, scrollStart, scrollStop) {
         var newSurface;
 
         if (type === 'html') {
