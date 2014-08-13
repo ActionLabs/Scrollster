@@ -23,7 +23,7 @@ define(function(require, exports, module) {
         } else if (type === 'rotate') {
             newAction = new RotateModifier(actor, scrollStart, scrollStop, properties.axis, properties.scale);
         } else if (type === 'opacity') {
-            newAction = new OpacityModifier(scrollStart, scrollStop);
+            newAction = new OpacityModifier(scrollStart, scrollStop, properties ? properties.fadeOut : undefined);
         }
 
         _saveAction.call(this, actor, newAction);
