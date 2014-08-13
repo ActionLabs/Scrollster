@@ -80,40 +80,6 @@ define(function(require, exports, module) {
         _updateModifiers.call(this, data.delta);
     }
 
-    // function _scrollMove(delta) {
-    //     // Apply the standard x and y movement
-    //     this.incrementPosition(UnitConverter.pixelsToRatioX(delta) * this.scaleX, UnitConverter.pixelsToRatioY(delta) * this.scaleY);
-
-    //     if (this.destination) {
-    //         window.console.log('Scroll: ' + this.scrollProgress + ' before delta ' + (this.scrollProgress - delta));
-    //         // passing top of the destination
-    //         if (((this.scrollProgress - delta) >= this.destination.stopScroll) &&
-    //             (this.scrollProgress < this.destination.stopScroll)) {
-    //             this.setPositionPixels(this.destination.x, this.destination.y);
-    //         }
-    //         // passing bottom of the destination
-    //         if (((this.scrollProgress - delta) <= this.destination.startScroll) &&
-    //             (this.scrollProgress > this.destination.startScroll)) {
-    //                 this.setPositionPixels(this.destination.startX, this.destination.startY);
-    //         }
-    //         // In the scroll range, position accordingly
-    //         if (_inScrollRange.call(this, this.destination, this.scrollProgress)) {
-    //                 var currPixelX = UnitConverter.ratioXtoPixels(this.xPosition);
-    //                 var currPixelY = UnitConverter.ratioYtoPixels(this.yPosition);
-
-    //                 if (!this.destination.startX) this.destination.startX = currPixelX;
-    //                 if (!this.destination.startY) this.destination.startY = currPixelY;
-
-    //                 var scrollRange = this.destination.startScroll - this.destination.stopScroll;
-
-    //                 var newPixelX = ((this.destination.x - this.destination.startX) / scrollRange) * (this.destination.startScroll - this.scrollProgress);
-    //                 var newPixelY = ((this.destination.y - this.destination.startY) / scrollRange) * (this.destination.startScroll - this.scrollProgress);
-
-    //                 this.setPositionPixels(this.destination.startX + newPixelX, this.destination.startY + newPixelY);
-    //         }
-    //     }
-    // }
-
     function _updateModifiers(delta) {
         // Tell all the modifiers to update based on the current state of the world
         for (var i = 0; i < this.modifiers.length; i++) {

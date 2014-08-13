@@ -15,6 +15,7 @@ define(function(require, exports, module) {
 
     var ActorView     = require('views/ActorView');
     var UnitConverter = require('tools/UnitConverter');
+    var ActorFactory = require('tools/ActorFactory');
     var PositionModifier = require('modifiers/PositionModifier');
     var MoveToModifier   = require('modifiers/MoveToModifier');
     var RotateToModifier   = require('modifiers/RotateToModifier');
@@ -136,7 +137,19 @@ define(function(require, exports, module) {
     }
 
     function _createDemoActor() {
-        var demoActor = new ActorView();
+        var actorFactory = new ActorFactory();
+
+        var demoActor = actorFactory.makeActor('Demo Actor',
+                                                'html',
+                                                '<h2>Maybe a demo</h2>',
+                                                {
+                                                    backgroundColor: '#777777',
+                                                    fontSize: '2em',
+                                                    padding: '.5em',
+                                                    backfaceVisibility: 'visible'
+                                                },
+                                                undefined,
+                                                [300, 300]);
 
         demoActor.setPositionPixels(150, 150);
         var positionModifier = new PositionModifier(demoActor, 0, -1, 0, 600);
