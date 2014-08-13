@@ -58,7 +58,8 @@ define(function(require, exports, module) {
             size: [200, 200],
             content: 'Scroll Value: ',
             properties: {
-                backgroundColor: 'white'
+                backgroundColor: 'white',
+                zIndex: '0'
             }
         });
 
@@ -146,27 +147,28 @@ define(function(require, exports, module) {
         var actorFactory = new ActorFactory();
 
         var demoActor = actorFactory.makeActor('Demo Actor',
-                                                'html',
-                                                '<h2>Maybe a demo</h2>',
+                                                'image',
+                                                'content/images/famous_logo.png',
                                                 {
-                                                    backgroundColor: '#777777',
+                                                    // backgroundColor: '#777777',
                                                     fontSize: '2em',
                                                     padding: '.5em',
-                                                    backfaceVisibility: 'visible'
+                                                    backfaceVisibility: 'visible',
+                                                    zIndex: '10'
                                                 },
                                                 undefined,
                                                 [300, 300]);
 
-        demoActor.setPositionPixels(1050, 150);
+        demoActor.setPositionPixels(150, 150);
         var positionModifier = new PositionModifier(demoActor, 0, -1, 0, 599);
         var moveToModifier = new MoveToModifier(demoActor, 600, 1000, 720, 450);
         var rotateToModifier = new RotateToModifier(demoActor, 0, 1000, 'y', 540);
-        var opacityModifier = new OpacityModifier(300, 500);
+        // var opacityModifier = new OpacityModifier(300, 500);
 
         demoActor.addModifier(rotateToModifier);
         demoActor.addModifier(positionModifier);
         demoActor.addModifier(moveToModifier);
-        demoActor.addModifier(opacityModifier);
+        // demoActor.addModifier(opacityModifier);
         // demoActor.setPositionPixels(900, 100);
 
         // var opacityModifier = new Modifier({

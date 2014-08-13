@@ -20,6 +20,14 @@ define(function(require, exports, module) {
             });
         }
 
+        if (type === 'image') {
+            newSurface = new ImageSurface({
+                size: size,
+                content: content,
+                properties: properties
+            });
+        }
+
         var newActor = new ActorView();
         newActor.addSurface(newSurface);
 
@@ -27,6 +35,10 @@ define(function(require, exports, module) {
 
         return newActor;
     };
+
+    ActorFactory.prototype.getActor = function(name) {
+        return this.actors[name];
+    }
 
     module.exports = ActorFactory;
 });
