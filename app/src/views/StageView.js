@@ -18,6 +18,7 @@ define(function(require, exports, module) {
     var PositionModifier = require('modifiers/PositionModifier');
     var MoveToModifier   = require('modifiers/MoveToModifier');
     var RotateToModifier   = require('modifiers/RotateToModifier');
+    var OpacityModifier  = require('modifiers/OpacityModifier');
 
     GenericSync.register({
         'mouse': MouseSync,
@@ -33,7 +34,7 @@ define(function(require, exports, module) {
         _setupScrollInfoSurface.call(this);
         _handleScroll.call(this);
         _createDemoActor.call(this);
-        _setupArrowKeyBreakpoints.call(this, [500, 1000, 1500], 4, 5);
+        _setupArrowKeyBreakpoints.call(this, [300, 500, 700, 900, 1000], 4, 10);
     }
 
     StageView.DEFAULT_OPTIONS = {
@@ -90,21 +91,25 @@ define(function(require, exports, module) {
         this._arrowData.speed = speed;
 
         Engine.on('keydown', function(e) {
-            // If movement is already in progress, do nothing. TODO: enable cancelling movement
-            if (this._arrowData.interval) return;
+            // If movement is already in progress, cancel interval 
+            if (this._arrowData.interval) {
+                Timer.clear(this._arrowData.interval);
+                delete this._arrowData.interval;
+            } 
             // Up arrow key 
             if (e.keyCode === 38) {
                 // Decrement index if not at top of page
                 if (this._arrowData.index > 0) this._arrowData.index--;
+
                 this._arrowData.interval = Timer.setInterval(function() {
-                    if (this.worldScrollValue === this._arrowData.breakpoints[this._arrowData.index]) {
+                    if (this.worldScrollValue <= this._arrowData.breakpoints[this._arrowData.index]) {
                         Timer.clear(this._arrowData.interval);
                         delete this._arrowData.interval;
                     } else {
                         if (this.worldScrollValue > this._arrowData.breakpoints[this._arrowData.index]) {
                             this.worldScrollValue -= step;
                             this.scrollInfo.setContent('Scroll Value: ' + this.worldScrollValue);
-                            this._eventOutput.emit('ScrollUpdated', {delta: step});
+                            this._eventOutput.emit('ScrollUpdated', {delta: -step});
                         } else {
                             Timer.clear(this._arrowData.interval);
                             delete this._arrowData.interval;
@@ -115,16 +120,17 @@ define(function(require, exports, module) {
             // Down arrow key
             } else if (e.keyCode === 40) {
                 // Increment index if not at last breakpoint
-                if (this._arrowData.index !== this._arrowData.breakpoints.length - 1) this._arrowData.index++;
+                if (this._arrowData.index < this._arrowData.breakpoints.length - 1) this._arrowData.index++;
+
                 this._arrowData.interval = Timer.setInterval(function() {
-                    if (this.worldScrollValue === this._arrowData.breakpoints[this._arrowData.index]) {
+                    if (this.worldScrollValue >= this._arrowData.breakpoints[this._arrowData.index]) {
                         Timer.clear(this._arrowData.interval);
                         delete this._arrowData.interval;
                     } else {
                         if (this.worldScrollValue < this._arrowData.breakpoints[this._arrowData.index]) {
                             this.worldScrollValue += step;
                             this.scrollInfo.setContent('Scroll Value: ' + this.worldScrollValue);
-                            this._eventOutput.emit('ScrollUpdated', {delta: -step});
+                            this._eventOutput.emit('ScrollUpdated', {delta: step});
                         } else {
                             Timer.clear(this._arrowData.interval);
                             delete this._arrowData.interval;
@@ -142,17 +148,19 @@ define(function(require, exports, module) {
         var positionModifier = new PositionModifier(demoActor, 0, -1, 0, 600);
         var moveToModifier = new MoveToModifier(demoActor, 600, 1000, 720, 450);
         var rotateToModifier = new RotateToModifier(demoActor, 0, 1000, 'y', 540);
+        var opacityModifier = new OpacityModifier(300, 500);
 
         demoActor.addModifier(rotateToModifier);
         demoActor.addModifier(positionModifier);
         demoActor.addModifier(moveToModifier);
+        demoActor.addModifier(opacityModifier);
         // demoActor.setPositionPixels(900, 100);
 
-        var opacityModifier = new Modifier({
-            opacity: function() {
-                return Math.max(0, -this.scrollProgress / 100);
-            }.bind(demoActor)
-        });
+        // var opacityModifier = new Modifier({
+        //     opacity: function() {
+        //         return Math.max(0, -this.scrollProgress / 100);
+        //     }.bind(demoActor)
+        // });
 
         // demoActor.addModifier(opacityModifier);
 
