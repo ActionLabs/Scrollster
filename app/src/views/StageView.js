@@ -168,7 +168,7 @@ define(function(require, exports, module) {
         var moveToModifier = actionFactory.makeAction(demoActor, 'moveTo', 600, 1000, {location: [720, 450]});
         var rotateToModifier = actionFactory.makeAction(demoActor, 'rotateTo', 0, 1000, {axis: 'y', angleInDegrees: 540});
         // var rotateToModifier = actionFactory.makeAction(demoActor, 'rotate', 0, 1800, {axis: 'y', scale: 1});
-        var opacityModifier = actionFactory.makeAction(demoActor, 'opacity', 100, 600);
+        var opacityModifier = actionFactory.makeAction(demoActor, 'opacity', 100, 600, {fadeOut: false});
         var scaleModifier = new ScaleModifier(800, 1000, 1, 5);
 
         demoActor.addModifier(scaleModifier);
