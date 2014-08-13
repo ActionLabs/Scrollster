@@ -34,7 +34,7 @@ define(function(require, exports, module) {
         _setupScrollInfoSurface.call(this);
         _handleScroll.call(this);
         _createDemoActor.call(this);
-        _setupArrowKeyBreakpoints.call(this, [500, 700, 900, 1000], 4, 10);
+        _setupArrowKeyBreakpoints.call(this, [300, 500, 700, 900, 1000], 4, 10);
     }
 
     StageView.DEFAULT_OPTIONS = {
@@ -148,7 +148,7 @@ define(function(require, exports, module) {
         var positionModifier = new PositionModifier(demoActor, 0, -1, 0, 600);
         var moveToModifier = new MoveToModifier(demoActor, 600, 1000, 720, 450);
         var rotateToModifier = new RotateToModifier(demoActor, 0, 1000, 'y', 540);
-        var opacityModifier = new OpacityModifier(700, 1000);
+        var opacityModifier = new OpacityModifier(300, 500);
 
         demoActor.addModifier(rotateToModifier);
         demoActor.addModifier(positionModifier);

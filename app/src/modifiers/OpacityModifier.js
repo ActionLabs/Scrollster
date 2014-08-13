@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
     'use strict'
-    var Modifier = require('famous/core/Modifier');
+    var Modifier       = require('famous/core/Modifier');
     var Transitionable = require('famous/transitions/Transitionable');
 
     function OpacityModifier(scrollStart, scrollStop) {
@@ -16,19 +16,20 @@ define(function(require, exports, module) {
     OpacityModifier.prototype.constructor = OpacityModifier;
 
     OpacityModifier.prototype.checkAndUpdate = function(scrollPosition, delta) {
-        if ((this.scrollStart === undefined ||
-            scrollPosition >= this.scrollStart) &&
-            (this.scrollStop === undefined ||
-            scrollPosition <= this.scrollStop)) {
+        if (scrollPosition > this.scrollStart &&
+            scrollPosition < this.scrollStop) {
 
-                this.transitionable.set(this.transitionable.get() + delta / this.range);
+            this.transitionable.set(this.transitionable.get() + delta / this.range);
+        } else if (scrollPosition <= this.scrollStart) {
+            this.transitionable.set(0);
+        } else if (scrollPosition >= this.scrollStop) {
+            this.transitionable.set(1);
         }
     };
 
     function _makeModifier() {
         this.modifier = {
             opacity:  function () {
-                console.log(this.transitionable.get());
                 return this.transitionable.get()
             }.bind(this)
         };
