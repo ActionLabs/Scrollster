@@ -16,7 +16,8 @@ define(function(require, exports, module) {
             newSurface = new Surface({
                 size: size,
                 content: content,
-                properties: properties
+                properties: properties,
+                classes: ['backfaceVisibility']
             });
         }
 
@@ -24,7 +25,8 @@ define(function(require, exports, module) {
             newSurface = new ImageSurface({
                 size: size,
                 content: content,
-                properties: properties
+                properties: properties,
+                classes: ['backfaceVisibility']
             });
         }
 
@@ -38,7 +40,7 @@ define(function(require, exports, module) {
 
     ActorFactory.prototype.getActor = function(name) {
         return this.actors[name];
-    }
+    };
 
     module.exports = ActorFactory;
 });
