@@ -8,7 +8,7 @@ define(function(require, exports, module) {
         this.scrollStart  = scrollStart;
         this.scrollStop = scrollStop;
         this.scaleX = scaleX;
-        this.scaleY = scaleY;
+        this.scaleY = -scaleY; //Have to invert so that positive values respond as expected.
         this.scrollState = 'inactive';
 
         _makeModifier.call(this);
@@ -35,14 +35,18 @@ define(function(require, exports, module) {
                    (scrollPosition > this.scrollStop)) {
             // Passing out of scroll range.
             this.scrollState = 'upper';
-            var endX = this.startX + ((this.scrollStop - this.scrollStop) * this.scaleX);
-            var endY = this.startY + ((this.scrollStop - this.scrollStop) * this.scaleY);
-            this.actor.setPositionPixels(endX, endY);
+            if (this.startX !== undefined && this.startY !== undefined){
+                var endX = this.startX + ((this.scrollStop - this.scrollStart) * this.scaleX);
+                var endY = this.startY + ((this.scrollStop - this.scrollStart) * this.scaleY);
+                this.actor.setPositionPixels(endX, endY);
+            }
         } else if (((scrollPosition - delta) >= this.scrollStart) &&
                    (scrollPosition < this.scrollStart)) {
             // Passing out of scroll range.
             this.scrollState = 'lower';
-            this.actor.setPositionPixels(this.startX, this.startY);
+            if (this.startX !== undefined && this.startY !== undefined){
+                this.actor.setPositionPixels(this.startX, this.startY);
+            }
         } else {
             // out of range
             this.scrollState = 'inactive';
@@ -64,7 +68,7 @@ define(function(require, exports, module) {
     }
 
     function _incrementPosition(pixelDelta) {
-        this.actor.incrementPosition(UnitConverter.pixelsToRatioX(pixelDelta) * this.scaleX, -UnitConverter.pixelsToRatioY(pixelDelta) * this.scaleY);
+        this.actor.incrementPosition(UnitConverter.pixelsToRatioX(pixelDelta) * this.scaleX, UnitConverter.pixelsToRatioY(pixelDelta) * this.scaleY);
     }
 
     module.exports = PositionModifier;

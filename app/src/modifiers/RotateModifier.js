@@ -44,7 +44,6 @@ define(function(require, exports, module) {
             // out of range
             this.rotateState = 'inactive';
         }
-        window.console.log(this.theta);
     };
 
     function _setupAxis(axis) {
