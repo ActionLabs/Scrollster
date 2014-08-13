@@ -7,6 +7,7 @@ define(function(require, exports, module) {
         this.actor = actor;
         this.scrollStart  = scrollStart;
         this.scrollStop = scrollStop;
+        this.scrollRange = scrollStop - scrollStart;
         this.scaleX = scaleX;
         this.scaleY = -scaleY; //Have to invert so that positive values respond as expected.
         this.scrollState = 'inactive';
@@ -36,8 +37,8 @@ define(function(require, exports, module) {
             // Passing out of scroll range.
             this.scrollState = 'upper';
             if (this.startX !== undefined && this.startY !== undefined){
-                var endX = this.startX + ((this.scrollStop - this.scrollStart) * this.scaleX);
-                var endY = this.startY + ((this.scrollStop - this.scrollStart) * this.scaleY);
+                var endX = this.startX + ((this.scrollRange) * this.scaleX);
+                var endY = this.startY + ((this.scrollRange) * this.scaleY);
                 this.actor.setPositionPixels(endX, endY);
             }
         } else if (((scrollPosition - delta) >= this.scrollStart) &&
