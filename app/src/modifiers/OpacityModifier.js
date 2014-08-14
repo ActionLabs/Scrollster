@@ -23,9 +23,9 @@ define(function(require, exports, module) {
             scrollPosition < this.scrollStop) {
 
             if (this.fadeOut) {
-                this.opacity = 1 - this.curveFn(scrollPosition / this.scrollRange);
+                this.opacity = 1 - this.curveFn((scrollPosition - this.scrollStart) / this.scrollRange);
             } else {
-                this.opacity = this.curveFn(scrollPosition / this.scrollRange);
+                this.opacity = this.curveFn((scrollPosition - this.scrollStart) / this.scrollRange);
             }
 
         } else if (scrollPosition <= this.scrollStart) {
