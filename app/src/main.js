@@ -90,7 +90,7 @@ define(function(require, exports, module) {
             properties: {
                 changeRatioX: 4,
                 changeRatioY: 4,
-                curve: 'spring'
+                curve: 'easeOut'
             }
         },
         {
@@ -127,7 +127,9 @@ define(function(require, exports, module) {
             start: 1000,
             stop: 1200,
             type: 'opacity',
-            properties: {}
+            properties: {
+                curve: 'linear'
+            }
         }
     ];
 
