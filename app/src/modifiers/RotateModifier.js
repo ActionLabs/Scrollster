@@ -4,7 +4,7 @@ define(function(require, exports, module) {
     var Transform     = require('famous/core/Transform');
     var Modifier      = require('famous/core/Modifier');  // Parent class
 
-    function PositionModifier(actor, scrollStart, scrollStop, axis, scale) {
+    function RotateModifier(actor, scrollStart, scrollStop, axis, scale) {
         this.actor = actor;
         this.scrollStart  = scrollStart;
         this.scrollStop = scrollStop;
@@ -18,10 +18,10 @@ define(function(require, exports, module) {
         Modifier.call(this, this.modifier);
     }
 
-    PositionModifier.prototype = Object.create(Modifier.prototype);
-    PositionModifier.prototype.constructor = PositionModifier;
+    RotateModifier.prototype = Object.create(Modifier.prototype);
+    RotateModifier.prototype.constructor = RotateModifier;
 
-    PositionModifier.prototype.checkAndUpdate = function(scrollPosition, delta) {
+    RotateModifier.prototype.checkAndUpdate = function(scrollPosition, delta) {
         if ((this.scrollStart === undefined ||
             scrollPosition >= this.scrollStart) &&
             (this.scrollStop === undefined ||
@@ -66,5 +66,5 @@ define(function(require, exports, module) {
         };
     }
 
-    module.exports = PositionModifier;
+    module.exports = RotateModifier;
 });
