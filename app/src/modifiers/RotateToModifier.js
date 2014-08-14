@@ -4,11 +4,12 @@ define(function(require, exports, module) {
     var Transform     = require('famous/core/Transform');
     var Modifier      = require('famous/core/Modifier');  // Parent class
 
-    function PositionModifier(actor, scrollStart, scrollStop, axis, angleInDegrees) {
+    function PositionModifier(actor, scrollStart, scrollStop, curveFn, axis, angleInDegrees) {
         this.actor = actor;
         this.scrollStart  = scrollStart;
         this.scrollStop = scrollStop;
         this.scrollRange = scrollStop - scrollStart;
+        this.curveFn = curveFn;
         this.theta = 0;
         this.startTheta = 0;
         this.stopTheta = UnitConverter.degreesToRadians(angleInDegrees);
@@ -30,7 +31,7 @@ define(function(require, exports, module) {
             // Inside scroll range
             this.rotateState = 'active';
             var progress = (scrollPosition - this.scrollStart) / (this.scrollRange);
-            this.theta = this.stopTheta * progress;
+            this.theta = this.stopTheta * this.curveFn(progress);
         } else if (((scrollPosition - delta) <= this.scrollStop) &&
                    (scrollPosition > this.scrollStop)) {
             // Passing out of scroll range.
