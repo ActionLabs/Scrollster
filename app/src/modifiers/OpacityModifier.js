@@ -1,14 +1,15 @@
 define(function(require, exports, module) {
-    'use strict'
+    'use strict';
     var Modifier       = require('famous/core/Modifier');
 
-    function OpacityModifier(scrollStart, scrollStop, fadeOut) {
+    function OpacityModifier(scrollStart, scrollStop, curveFn, fadeOut) {
         this.fadeOut = fadeOut === true ? true : false;
         this.initialOpacity = fadeOut === true ? 1 : 0;
         this.finalOpacity = fadeOut === true ? 0 : 1;
         this.scrollStart = scrollStart;
         this.scrollStop = scrollStop;
         this.scrollRange = scrollStop - scrollStart;
+        this.curveFn = curveFn;
         this.opacity = this.initialOpacity;
         _makeModifier.call(this);
         Modifier.call(this, this.modifier);
@@ -22,10 +23,11 @@ define(function(require, exports, module) {
             scrollPosition < this.scrollStop) {
 
             if (this.fadeOut) {
-                delta = -delta;
+                this.opacity = 1 - this.curveFn(scrollPosition / this.scrollRange);
+            } else {
+                this.opacity = this.curveFn(scrollPosition / this.scrollRange);
             }
 
-            this.opacity = (this.opacity + delta / this.scrollRange);
         } else if (scrollPosition <= this.scrollStart) {
             this.opacity = this.initialOpacity;
         } else if (scrollPosition >= this.scrollStop) {
@@ -35,7 +37,7 @@ define(function(require, exports, module) {
 
     function _makeModifier() {
         this.modifier = {
-            opacity:  function () {
+            opacity: function() {
                 return this.opacity;
             }.bind(this)
         };

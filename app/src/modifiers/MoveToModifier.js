@@ -3,11 +3,12 @@ define(function(require, exports, module) {
     var UnitConverter = require('tools/UnitConverter');
     var Modifier      = require('famous/core/Modifier');  // Parent class
 
-    function PositionModifier(actor, scrollStart, scrollStop, pixelsStopX, pixelsStopY) {
+    function PositionModifier(actor, scrollStart, scrollStop, curveFn, pixelsStopX, pixelsStopY) {
         this.actor = actor;
         this.scrollStart  = scrollStart;
         this.scrollStop = scrollStop;
         this.scrollRange = scrollStop - scrollStart;
+        this.curveFn = curveFn;
         this.pixelsStopX = pixelsStopX;
         this.pixelsStopY = pixelsStopY;
         this.scrollState = 'inactive';
@@ -33,8 +34,8 @@ define(function(require, exports, module) {
             if (!this.startX) this.startX = currPixelX;
             if (!this.startY) this.startY = currPixelY;
 
-            var newPixelX = ((this.pixelsStopX - this.startX) / this.scrollRange) * (scrollPosition - this.scrollStart);
-            var newPixelY = ((this.pixelsStopY - this.startY) / this.scrollRange) * (scrollPosition - this.scrollStart);
+            var newPixelX = (this.pixelsStopX - this.startX) * this.curveFn((scrollPosition - this.scrollStart) / this.scrollRange);
+            var newPixelY = (this.pixelsStopY - this.startY) * this.curveFn((scrollPosition - this.scrollStart) / this.scrollRange);
 
             this.actor.setPositionPixels(this.startX + newPixelX, this.startY + newPixelY);
 

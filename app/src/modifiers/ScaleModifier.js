@@ -3,10 +3,11 @@ define(function(require, exports, module) {
     var Modifier       = require('famous/core/Modifier');
     var Transform      = require('famous/core/Transform');
 
-    function ScaleModifier(scrollStart, scrollStop, changeRatioX, changeRatioY) {
+    function ScaleModifier(scrollStart, scrollStop, curveFn, changeRatioX, changeRatioY) {
         this.scrollStart = scrollStart;
         this.scrollStop = scrollStop;
         this.scrollRange = scrollStop - scrollStart;
+        this.curveFn = curveFn;
         this.changeRatioX = changeRatioX;
         this.changeRatioY = changeRatioY;
         _makeModifier.call(this);
@@ -17,11 +18,11 @@ define(function(require, exports, module) {
     ScaleModifier.prototype.constructor = ScaleModifier;
 
     ScaleModifier.prototype.checkAndUpdate = function(scrollPosition, delta) {
-        var progress = (scrollPosition - this.scrollStart) / this.scrollRange;
+        var progress = this.curveFn((scrollPosition - this.scrollStart) / this.scrollRange);
 
         if (scrollPosition > this.scrollStart &&
             scrollPosition < this.scrollStop) {
-            this.scaleX = 1 + progress * (this.changeRatioX - 1);            
+            this.scaleX = 1 + progress * (this.changeRatioX - 1);
             this.scaleY = 1 + progress * (this.changeRatioY - 1);
         } else if (scrollPosition <= this.scrollStart) {
             this.scaleX = 1;

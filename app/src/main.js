@@ -27,6 +27,19 @@ define(function(require, exports, module) {
             },
             size: [300, 300],
             position: [150, 150]
+        },
+        'Demo Two': {
+            type: 'html',
+            content: 'Hi!',
+            zIndex: 5,
+            size: [100, 100],
+            position: [800, 200],
+            properties: {
+                fontSize: '2em',
+                padding: '.5em',
+                backfaceVisibility: 'visible',
+                backgroundColor: 'blue'
+            }
         }
     };
 
@@ -38,7 +51,8 @@ define(function(require, exports, module) {
             type: 'rotateTo',
             properties: {
                 axis: 'y',
-                angleInDegrees: 540
+                angleInDegrees: 720,
+                curve: 'easeOutBounce'
             }
         },
         {
@@ -57,13 +71,61 @@ define(function(require, exports, module) {
             stop: 1000,
             type: 'moveTo',
             properties: {
-                location: [720, 450]
+                location: [720, 450],
+                curve: 'easeOutBounce'
             }
         },
         {
             actor: 'Demo Actor',
             start: 0,
-            stop: 200,
+            stop: 1000,
+            type: 'opacity',
+            properties: {}
+        },
+        {
+            actor: 'Demo Two',
+            start: 1000,
+            stop: 2000,
+            type: 'scale',
+            properties: {
+                changeRatioX: 4,
+                changeRatioY: 4,
+                curve: 'spring'
+            }
+        },
+        {
+            actor: 'Demo Two',
+            start: 1000,
+            stop: 2000,
+            type: 'rotateTo',
+            properties: {
+                axis: 'y',
+                angleInDegrees: 540
+            }
+        },
+        {
+            actor: 'Demo Two',
+            start: 1000,
+            stop: 1600,
+            type: 'position',
+            properties: {
+                scaleX: 0,
+                scaleY: -1
+            }
+        },
+        {
+            actor: 'Demo Two',
+            start: 1600,
+            stop: 2000,
+            type: 'moveTo',
+            properties: {
+                location: [720, 450]
+            }
+        },
+        {
+            actor: 'Demo Two',
+            start: 1000,
+            stop: 1200,
             type: 'opacity',
             properties: {}
         }
