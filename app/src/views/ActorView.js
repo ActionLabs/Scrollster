@@ -2,7 +2,6 @@ define(function(require, exports, module) {
     'use strict';
     var View          = require('famous/core/View');
     var Surface       = require('famous/core/Surface');
-    var Modifier      = require('famous/core/Modifier');
     var ModifierChain = require('famous/modifiers/ModifierChain');
     var UnitConverter = require('tools/UnitConverter');
 

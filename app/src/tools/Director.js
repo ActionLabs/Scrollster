@@ -18,6 +18,7 @@ define(function(require, exports, module) {
             var newActor = actorFactory.makeActor(actorName,
                                                   actorDescriptions[actorName].type,
                                                   actorDescriptions[actorName].content,
+                                                  actorDescriptions[actorName].classes,
                                                   actorDescriptions[actorName].properties,
                                                   actorDescriptions[actorName].size
                                                   );

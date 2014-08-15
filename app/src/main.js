@@ -18,22 +18,20 @@ define(function(require, exports, module) {
     var actorDescriptions = {
         'Demo Actor': {
             type: 'image',
-            content: 'content/images/famous_logo.png',
-            zIndex: 10,
+            content: 'content/images/scrollster-name-main.001.jpg',
             properties: {
-                fontSize: '2em',
-                padding: '.5em',
                 backfaceVisibility: 'visible'
             },
-            size: [300, 300],
-            position: [150, 150]
+            size: [1920, 1080],
+            position: [150, 150],
+            classes: ['z2']
         },
         'Demo Two': {
             type: 'html',
             content: 'Hi!',
-            zIndex: 5,
             size: [100, 100],
             position: [800, 200],
+            classes: ['z1'],
             properties: {
                 fontSize: '2em',
                 padding: '.5em',
