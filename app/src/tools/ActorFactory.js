@@ -9,15 +9,21 @@ define(function(require, exports, module) {
           this.actors = {};
     }
 
-    ActorFactory.prototype.makeActor = function(name, type, content, properties, size, scrollStart, scrollStop) {
+    ActorFactory.prototype.makeActor = function(name, type, content, classes, properties, size, scrollStart, scrollStop) {
         var newSurface;
+
+        if (!classes) {
+            classes = ['backfaceVisibility'];
+        } else {
+            classes.push('backfaceVisibility');
+        }
 
         if (type === 'html') {
             newSurface = new Surface({
                 size: size,
                 content: content,
                 properties: properties,
-                classes: ['backfaceVisibility']
+                classes: classes
             });
         }
 
@@ -26,11 +32,14 @@ define(function(require, exports, module) {
                 size: size,
                 content: content,
                 properties: properties,
-                classes: ['backfaceVisibility']
+                classes: classes
             });
         }
 
-        var newActor = new ActorView({name: name});
+        var newActor = new ActorView({
+            name: name
+        });
+
         newActor.addSurface(newSurface);
 
         this.actors[name] = newActor;
