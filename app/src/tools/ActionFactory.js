@@ -6,6 +6,7 @@ define(function(require, exports, module) {
     var RotateModifier     = require('modifiers/RotateModifier');
     var RotateToModifier   = require('modifiers/RotateToModifier');
     var ScaleModifier      = require('modifiers/ScaleModifier');
+    var SkewModifier       = require('modifiers/SkewModifier');
     var TweenTransition    = require('famous/transitions/TweenTransition');
     var Easing             = require('famous/transitions/Easing');
 
@@ -33,6 +34,8 @@ define(function(require, exports, module) {
             newAction = new OpacityModifier(scrollStart, scrollStop, properties.curveFn, properties ? properties.fadeOut : undefined);
         } else if (type === 'scale') {
             newAction = new ScaleModifier(scrollStart, scrollStop, properties.curveFn, properties.changeRatioX, properties.changeRatioY);
+        } else if (type === 'skew') {
+            newAction = new SkewModifier(scrollStart, scrollStop, properties.curveFn, properties.phi, properties.theta, properties.psi);
         }
 
         actor.addModifier(newAction);

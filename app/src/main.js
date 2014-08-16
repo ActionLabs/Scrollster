@@ -43,6 +43,15 @@ define(function(require, exports, module) {
 
     var actionDescriptions = [
         {
+            actor: 'Demo Two',
+            start: 1000,
+            stop: 1100,
+            type: 'skew',
+            properties: {
+                psi: 0.25
+            }
+        },
+        {
             actor: 'Demo Actor',
             start: 0,
             stop: 1000,
