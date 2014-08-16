@@ -22,7 +22,6 @@ define(function(require, exports, module) {
         this.worldScrollValue = 0;
 
         _setupScrollRecieverSurface.call(this);
-        _setupScrollInfoSurface.call(this);
         _handleScroll.call(this);
         _setupArrowKeyBreakpoints.call(this, [300, 500, 700, 900, 1000], 4, 10);
     }
@@ -68,12 +67,10 @@ define(function(require, exports, module) {
         );
 
         this.scrollRecieverSurface.pipe(this.sync);
-        this.scrollInfo.pipe(this.sync);
 
         this.sync.on('update', function(data) {
             // Invert delta so scrolling up is positive.
             this.worldScrollValue -= data.delta;
-            this.scrollInfo.setContent('Scroll Value: ' + this.worldScrollValue);
             this._eventOutput.emit('ScrollUpdated', {delta: -data.delta});
         }.bind(this));
 
