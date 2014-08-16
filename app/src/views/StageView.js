@@ -95,8 +95,13 @@ define(function(require, exports, module) {
             }
             // Up arrow key
             if (e.keyCode === 38) {
-                // Decrement index if not at top of page
-                if (this._arrowData.index > 0) this._arrowData.index--;
+                // Set index based on next lowest breakpoint
+                for (var i = this._arrowData.breakpoints.length - 1; i >= 0; i--) {
+                    if (this.worldScrollValue > this._arrowData.breakpoints[i]) {
+                        this._arrowData.index = i;
+                        break;
+                    }
+                }
 
                 this._arrowData.interval = Timer.setInterval(function() {
                     if (this.worldScrollValue <= this._arrowData.breakpoints[this._arrowData.index]) {
@@ -104,7 +109,7 @@ define(function(require, exports, module) {
                         delete this._arrowData.interval;
                     } else {
                         if (this.worldScrollValue > this._arrowData.breakpoints[this._arrowData.index]) {
-                            this.worldScrollValue -= step;
+                            this.worldScrollValue -= Math.min(step, this.worldScrollValue - this._arrowData.breakpoints[this._arrowData.index]);
                             this.scrollInfo.setContent('Scroll Value: ' + this.worldScrollValue);
                             this._eventOutput.emit('ScrollUpdated', {delta: -step});
                         } else {
@@ -116,8 +121,13 @@ define(function(require, exports, module) {
 
             // Down arrow key
             } else if (e.keyCode === 40) {
-                // Increment index if not at last breakpoint
-                if (this._arrowData.index < this._arrowData.breakpoints.length - 1) this._arrowData.index++;
+                // Set index based on next highest breakpoint
+                for (var i = 0; i < this._arrowData.breakpoints.length; i++) {
+                    if (this.worldScrollValue < this._arrowData.breakpoints[i]) {
+                        this._arrowData.index = i;
+                        break;
+                    }
+                }
 
                 this._arrowData.interval = Timer.setInterval(function() {
                     if (this.worldScrollValue >= this._arrowData.breakpoints[this._arrowData.index]) {
@@ -125,7 +135,7 @@ define(function(require, exports, module) {
                         delete this._arrowData.interval;
                     } else {
                         if (this.worldScrollValue < this._arrowData.breakpoints[this._arrowData.index]) {
-                            this.worldScrollValue += step;
+                            this.worldScrollValue += Math.min(step, this._arrowData.breakpoints[this._arrowData.index] - this.worldScrollValue);
                             this.scrollInfo.setContent('Scroll Value: ' + this.worldScrollValue);
                             this._eventOutput.emit('ScrollUpdated', {delta: step});
                         } else {
