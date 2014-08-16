@@ -24,7 +24,7 @@ define(function(require, exports, module) {
         _setupScrollRecieverSurface.call(this);
         _setupScrollInfoSurface.call(this);
         _handleScroll.call(this);
-        _setupArrowKeyBreakpoints.call(this, [300, 500, 700, 900, 1000], 4, 10);
+        _setupArrowKeyBreakpoints.call(this, [300, 500, 700, 900, 1000]);
     }
 
     StageView.DEFAULT_OPTIONS = {
@@ -85,7 +85,8 @@ define(function(require, exports, module) {
         this._arrowData = {};
         this._arrowData.breakpoints = [0].concat(breakpoints);
         this._arrowData.index = 0;
-        this._arrowData.speed = speed;
+        this._arrowData.speed = speed || 4;
+        this._arrowData.step = step || 10;
 
         Engine.on('keydown', function(e) {
             // If movement is already in progress, cancel interval
@@ -109,9 +110,9 @@ define(function(require, exports, module) {
                         delete this._arrowData.interval;
                     } else {
                         if (this.worldScrollValue > this._arrowData.breakpoints[this._arrowData.index]) {
-                            this.worldScrollValue -= Math.min(step, this.worldScrollValue - this._arrowData.breakpoints[this._arrowData.index]);
+                            this.worldScrollValue -= Math.min(this._arrowData.step, this.worldScrollValue - this._arrowData.breakpoints[this._arrowData.index]);
                             this.scrollInfo.setContent('Scroll Value: ' + this.worldScrollValue);
-                            this._eventOutput.emit('ScrollUpdated', {delta: -step});
+                            this._eventOutput.emit('ScrollUpdated', {delta: -this._arrowData.step});
                         } else {
                             Timer.clear(this._arrowData.interval);
                             delete this._arrowData.interval;
@@ -135,9 +136,9 @@ define(function(require, exports, module) {
                         delete this._arrowData.interval;
                     } else {
                         if (this.worldScrollValue < this._arrowData.breakpoints[this._arrowData.index]) {
-                            this.worldScrollValue += Math.min(step, this._arrowData.breakpoints[this._arrowData.index] - this.worldScrollValue);
+                            this.worldScrollValue += Math.min(this._arrowData.step, this._arrowData.breakpoints[this._arrowData.index] - this.worldScrollValue);
                             this.scrollInfo.setContent('Scroll Value: ' + this.worldScrollValue);
-                            this._eventOutput.emit('ScrollUpdated', {delta: step});
+                            this._eventOutput.emit('ScrollUpdated', {delta: this._arrowData.step});
                         } else {
                             Timer.clear(this._arrowData.interval);
                             delete this._arrowData.interval;
