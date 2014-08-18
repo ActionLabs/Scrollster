@@ -53,7 +53,7 @@ define(function(require, exports, module) {
     // In order to behave as expected, scaling must happen before rotation.
     // All others can be composed freely and follow scaling / rotation
     // This won't be a stable sort, but stability doesn't seem to make much difference for this.
-    ActionFactory.prototype.actionComparator = function (actionA, actionB) {
+    ActionFactory.prototype.actionComparator = function(actionA, actionB) {
         if (actionA.type === 'scale') {
             return -1;
         }
@@ -67,7 +67,7 @@ define(function(require, exports, module) {
             return 1;
         }
         return 0;
-    }
+    };
 
     function _setupTweenCurve(properties) {
         // setup tween curve as linear if no curve is defined

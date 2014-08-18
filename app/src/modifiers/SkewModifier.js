@@ -1,5 +1,5 @@
 define(function(require, exports, module) {
-    'use strict'
+    'use strict';
     var Modifier       = require('famous/core/Modifier');
     var Transform      = require('famous/core/Transform');
 
@@ -39,8 +39,8 @@ define(function(require, exports, module) {
 
     function _makeModifier() {
         this.modifier = {
-            transform:  function () {
-                return Transform.skew(this.skewX, this.skewY, this.skewZ); 
+            transform: function() {
+                return Transform.skew(this.skewX, this.skewY, this.skewZ);
             }.bind(this)
         };
     }
