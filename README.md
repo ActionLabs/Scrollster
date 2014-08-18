@@ -1,7 +1,49 @@
 #scrollster
-> Component for impressive scroll-based animations using Famo.us.
+> Component for impressive scroll-based animations using the power of Famo.us.
 
-[![Build Status](https://travis-ci.org//scrollster.svg?branch=master)](https://travis-ci.org//scrollster) [![Dependency Status](https://david-dm.org//scrollster.svg)](https://david-dm.org//scrollster) [![devDependency Status](https://david-dm.org//scrollster/dev-status.svg)](https://david-dm.org//scrollster#info=devDependencies)
+## Introduction
+Famo.us is a powerful platform for web front-end development. However, with that power comes a necessary amount of complexity. This makes it difficult for newer developers to approach Famo.us and take advantage of some of it’s unique capabilities.
+
+This component provides a simpler, declarative JSON-style api to allow you to drop-in the component and create impressive animations.
+
+To work with the component you specify two type of Javascrip enteties: actors and actions.
+
+An actor represents the item displayed in the UI and looks like this:
+
+```
+'Demo Actor': { // String name of the actor
+    type: 'html', // Type of actor to display (currently html or image)
+    content: 'Hi!', // Content to display within the actor
+    size: [100, 100], // The initial size of the actor when it first appears in pixels
+    position: [800, 200], // The initial position of the actor within the world in pixels
+    classes: ['z1'], // An array of class names to add to the actor.
+    properties: {  // A collection of CSS style properties to actor
+        fontSize: '2em',
+        padding: '.5em',
+        backfaceVisibility: 'visible',
+        backgroundColor: 'blue'
+    }
+}
+```
+
+This one creates a 100 x 100 pixel element with a blue background color and the text "Hi!." It initially appears 800 pixels from the left and 200 pixels from the top and has the class z1 applied to it.
+
+And this is what an action looks like:
+```
+{
+    actor: 'Demo Actor', // Which actor this action applies to
+    start: 600, // How far along the scroll to start applying this action
+    stop: 1000, // How far along the scroll to stop applying this action
+    type: 'moveTo', // The type of action. (moveTo makes the option move from where it is to the specified location)
+    properties: {
+        location: [720, 450], // The destination in pixels
+        curve: 'easeOutBounce' // A curve to apply (whether the item goes there directly or changes speed as it goes)
+    }
+},
+```
+This action waits until the scroll has progressed 600 units. Then it moves the actor from wherever it is to the position x: 720 and y: 450. The actor will arrive at that location at 1000 units of scroll. The curve describes how directly the actor travels. A linear curve moves to the new position at a constant rate. The easeOutBounce curve starts moving quickly, slows at it gets close to the destination, and then briefly overshoots the destination before snapping back.
+
+See the wiki for further documentation.
 
 ##Dependencies
 It is actually quite simple really
