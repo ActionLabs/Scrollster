@@ -1,27 +1,47 @@
 define(function(require, exports, module) {
     'use strict';
-    var UnitConverter = require('tools/UnitConverter');
-    var Transform     = require('famous/core/Transform');
-    var Modifier      = require('famous/core/Modifier');  // Parent class
+    var UnitConverter  = require('tools/UnitConverter');
+    var Transform      = require('famous/core/Transform');
+    var OptionsManager = require('famous/core/OptionsManager');
+    var Modifier       = require('famous/core/Modifier');  // Parent class
 
-    function RotateToModifier(actor, scrollStart, scrollStop, curveFn, axis, angleInDegrees) {
-        this.actor = actor;
-        this.scrollStart  = scrollStart;
-        this.scrollStop = scrollStop;
-        this.scrollRange = scrollStop - scrollStart;
-        this.curveFn = curveFn;
+    function RotateToModifier(options) {
+        this.options = Object.create(RotateToModifier.DEFAULT_OPTIONS);
+        this._optionsManager = new OptionsManager(this.options);
+        if (options) this.setOptions(options);
+
+        this.actor = this.options.actor;
+        this.scrollStart  = this.options.scrollStart;
+        this.scrollStop = this.options.scrollStop;
+        this.scrollRange = this.options.scrollStop - this.options.scrollStart;
+        this.curveFn = this.options.curveFn;
         this.theta = 0;
         this.startTheta = 0;
-        this.stopTheta = UnitConverter.degreesToRadians(angleInDegrees);
+        this.stopTheta = UnitConverter.degreesToRadians(this.options.angleInDegrees);
         this.rotateState = 'inactive';
 
-        _setupAxis.call(this, axis);
+        _setupAxis.call(this, this.options.axis);
         _makeModifier.call(this);
         Modifier.call(this, this.modifier);
     }
 
+    RotateToModifier.DEFAULT_OPTIONS = {
+        actor: undefined,
+        scrollStart: 0,
+        scrollStop: 0,
+        curveFn: function(t) {
+            return t;
+        },
+        axis: 'z',
+        angleInDegrees: 360
+    };
+
     RotateToModifier.prototype = Object.create(Modifier.prototype);
     RotateToModifier.prototype.constructor = RotateToModifier;
+
+    RotateToModifier.prototype.setOptions = function(options) {
+        this._optionsManager.patch(options);
+    };
 
     RotateToModifier.prototype.checkAndUpdate = function(scrollPosition, delta) {
         if ((this.scrollStart === undefined ||

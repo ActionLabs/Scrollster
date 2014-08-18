@@ -1,24 +1,44 @@
 define(function(require, exports, module) {
     'use strict';
-    var UnitConverter = require('tools/UnitConverter');
-    var Modifier      = require('famous/core/Modifier');  // Parent class
+    var UnitConverter  = require('tools/UnitConverter');
+    var OptionsManager = require('famous/core/OptionsManager');
+    var Modifier       = require('famous/core/Modifier');  // Parent class
 
-    function MoveToModifier(actor, scrollStart, scrollStop, curveFn, pixelsStopX, pixelsStopY) {
-        this.actor = actor;
-        this.scrollStart  = scrollStart;
-        this.scrollStop = scrollStop;
-        this.scrollRange = scrollStop - scrollStart;
-        this.curveFn = curveFn;
-        this.pixelsStopX = pixelsStopX;
-        this.pixelsStopY = pixelsStopY;
+    function MoveToModifier(options) {
+        this.options = Object.create(MoveToModifier.DEFAULT_OPTIONS);
+        this._optionsManager = new OptionsManager(this.options);
+        if (options) this.setOptions(options);
+
+        this.actor = this.options.actor;
+        this.scrollStart  = this.options.scrollStart;
+        this.scrollStop = this.options.scrollStop;
+        this.scrollRange = this.options.scrollStop - this.options.scrollStart;
+        this.curveFn = this.options.curveFn;
+        this.pixelsStopX = this.options.pixelsStopX;
+        this.pixelsStopY = this.options.pixelsStopY;
         this.scrollState = 'inactive';
 
         _makeModifier.call(this);
         Modifier.call(this, this.modifier);
     }
 
+    MoveToModifier.DEFAULT_OPTIONS = {
+        actor: undefined,
+        scrollStart: 0,
+        scrollStop: 0,
+        curveFn: function(t) {
+            return t;
+        },
+        pixelsStopX: 0,
+        pixelsStopY: 0
+    };
+
     MoveToModifier.prototype = Object.create(Modifier.prototype);
     MoveToModifier.prototype.constructor = MoveToModifier;
+
+    MoveToModifier.prototype.setOptions = function(options) {
+        this._optionsManager.patch(options);
+    };
 
     MoveToModifier.prototype.checkAndUpdate = function(scrollPosition, delta) {
         if ((this.scrollStart === undefined ||

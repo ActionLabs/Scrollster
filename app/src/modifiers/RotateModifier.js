@@ -2,24 +2,41 @@ define(function(require, exports, module) {
     'use strict';
     var UnitConverter = require('tools/UnitConverter');
     var Transform     = require('famous/core/Transform');
+    var OptionsManager = require('famous/core/OptionsManager');
     var Modifier      = require('famous/core/Modifier');  // Parent class
 
-    function RotateModifier(actor, scrollStart, scrollStop, axis, scale) {
-        this.actor = actor;
-        this.scrollStart  = scrollStart;
-        this.scrollStop = scrollStop;
-        this.scrollRange = scrollStop - scrollStart;
-        this.scale = scale;
+    function RotateModifier(options) {
+        this.options = Object.create(RotateModifier.DEFAULT_OPTIONS);
+        this._optionsManager = new OptionsManager(this.options);
+        if (options) this.setOptions(options);
+
+        this.actor = this.options.actor;
+        this.scrollStart  = this.options.scrollStart;
+        this.scrollStop = this.options.scrollStop;
+        this.scrollRange = this.options.scrollStop - this.options.scrollStart;
+        this.scale = this.options.scale;
         this.theta = 0;
         this.rotateState = 'inactive';
 
-        _setupAxis.call(this, axis);
+        _setupAxis.call(this, this.options.axis);
         _makeModifier.call(this);
         Modifier.call(this, this.modifier);
     }
 
+    RotateModifier.DEFAULT_OPTIONS = {
+        actor: undefined,
+        scrollStart: 0,
+        scrollStop: 0,
+        axis: 'z',
+        scale: 0.01
+    };
+
     RotateModifier.prototype = Object.create(Modifier.prototype);
     RotateModifier.prototype.constructor = RotateModifier;
+
+    RotateModifier.prototype.setOptions = function(options) {
+        this._optionsManager.patch(options);
+    };
 
     RotateModifier.prototype.checkAndUpdate = function(scrollPosition, delta) {
         if ((this.scrollStart === undefined ||
