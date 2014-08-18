@@ -26,7 +26,7 @@ define(function(require, exports, module) {
             newActor.setPositionPixels(actorDescriptions[actorName].position[0], actorDescriptions[actorName].position[1]);
         }
 
-        // Reorder the action descriptions by type, since order matters for 
+        // Reorder the action descriptions by type, since order matters for
         // some types of actions / modifiers.
         actionDescriptions = actionDescriptions.sort(actionFactory.actionComparator);
 
