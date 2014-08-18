@@ -89,6 +89,7 @@ define(function(require, exports, module) {
         this._arrowData.step = step || 10;
 
         Engine.on('keydown', function(e) {
+            var i; // Iterator
             // If movement is already in progress, cancel interval
             if (this._arrowData.interval) {
                 Timer.clear(this._arrowData.interval);
@@ -97,7 +98,7 @@ define(function(require, exports, module) {
             // Up arrow key
             if (e.keyCode === 38) {
                 // Set index based on next lowest breakpoint
-                for (var i = this._arrowData.breakpoints.length - 1; i >= 0; i--) {
+                for (i = this._arrowData.breakpoints.length - 1; i >= 0; i--) {
                     if (this.worldScrollValue > this._arrowData.breakpoints[i]) {
                         this._arrowData.index = i;
                         break;
@@ -123,7 +124,7 @@ define(function(require, exports, module) {
             // Down arrow key
             } else if (e.keyCode === 40) {
                 // Set index based on next highest breakpoint
-                for (var i = 0; i < this._arrowData.breakpoints.length; i++) {
+                for (i = 0; i < this._arrowData.breakpoints.length; i++) {
                     if (this.worldScrollValue < this._arrowData.breakpoints[i]) {
                         this._arrowData.index = i;
                         break;
