@@ -23,7 +23,7 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'copy:dist',
-    'rev',
+    // 'rev', <-- inserts cache buster into file names. Not need to distribute as component
     'usemin',
     'htmlmin'
   ]);
