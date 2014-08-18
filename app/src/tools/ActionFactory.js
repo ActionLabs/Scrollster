@@ -23,19 +23,49 @@ define(function(require, exports, module) {
         _setupTweenCurve(properties);
 
         if (type === 'moveTo') {
-            newAction = new MoveToModifier(actor, scrollStart, scrollStop, properties.curveFn, properties.location[0], properties.location[1]);
+            newAction = new MoveToModifier({actor: actor,
+                                            scrollStart: scrollStart,
+                                            scrollStop: scrollStop,
+                                            curveFn: properties.curveFn,
+                                            pixelsStopX: properties.location[0],
+                                            pixelsStopY: properties.location[1]});
         } else if (type === 'position') {
-            newAction = new PositionModifier(actor, properties.scaleX, properties.scaleY, scrollStart, scrollStop);
+            newAction = new PositionModifier({actor: actor,
+                                              scaleX: properties.scaleX,
+                                              scaleY: properties.scaleY,
+                                              scrollStart: scrollStart,
+                                              scrollStop: scrollStop});
         } else if (type === 'rotateTo') {
-            newAction = new RotateToModifier(actor, scrollStart, scrollStop, properties.curveFn, properties.axis, properties.angleInDegrees);
+            newAction = new RotateToModifier({actor: actor,
+                                              scrollStart: scrollStart,
+                                              scrollStop: scrollStop,
+                                              curveFn: properties.curveFn,
+                                              axis: properties.axis,
+                                              angleInDegrees: properties.angleInDegrees});
         } else if (type === 'rotate') {
-            newAction = new RotateModifier(actor, scrollStart, scrollStop, properties.axis, properties.scale);
+            newAction = new RotateModifier({actor: actor,
+                                            scrollStart: scrollStart,
+                                            scrollStop: scrollStop,
+                                            axis: properties.axis,
+                                            scale: properties.scale});
         } else if (type === 'opacity') {
-            newAction = new OpacityModifier(scrollStart, scrollStop, properties.curveFn, properties ? properties.fadeOut : undefined);
+            newAction = new OpacityModifier({scrollStart: scrollStart,
+                                             scrollStop: scrollStop,
+                                             curveFn: properties.curveFn,
+                                             fadeOut: properties ? properties.fadeOut : undefined});
         } else if (type === 'scale') {
-            newAction = new ScaleModifier(scrollStart, scrollStop, properties.curveFn, properties.changeRatioX, properties.changeRatioY);
+            newAction = new ScaleModifier({scrollStart: scrollStart,
+                                           scrollStop: scrollStop,
+                                           curveFn: properties.curveFn,
+                                           changeRatioX: properties.changeRatioX,
+                                           changeRatioY: properties.changeRatioY});
         } else if (type === 'skew') {
-            newAction = new SkewModifier(scrollStart, scrollStop, properties.curveFn, properties.phi, properties.theta, properties.psi);
+            newAction = new SkewModifier({scrollStart: scrollStart,
+                                          scrollStop: scrollStop,
+                                          curveFn: properties.curveFn,
+                                          phi: properties.phi || 0,
+                                          theta: properties.theta || 0,
+                                          psi: properties.psi || 0});
         }
 
         actor.addModifier(newAction);

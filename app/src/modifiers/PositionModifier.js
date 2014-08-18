@@ -1,23 +1,40 @@
 define(function(require, exports, module) {
     'use strict';
     var UnitConverter = require('tools/UnitConverter');
+    var OptionsManager = require('famous/core/OptionsManager');
     var Modifier      = require('famous/core/Modifier');  // Parent class
 
-    function PositionModifier(actor, scaleX, scaleY, scrollStart, scrollStop) {
-        this.actor = actor;
-        this.scrollStart  = scrollStart;
-        this.scrollStop = scrollStop;
-        this.scrollRange = scrollStop - scrollStart;
-        this.scaleX = scaleX;
-        this.scaleY = -scaleY; //Have to invert so that positive values respond as expected.
+    function PositionModifier(options) {
+        this.options = Object.create(PositionModifier.DEFAULT_OPTIONS);
+        this._optionsManager = new OptionsManager(this.options);
+        if (options) this.setOptions(options);
+
+        this.actor = this.options.actor;
+        this.scrollStart  = this.options.scrollStart;
+        this.scrollStop = this.options.scrollStop;
+        this.scrollRange = this.options.scrollStop - this.options.scrollStart;
+        this.scaleX = this.options.scaleX;
+        this.scaleY = -this.options.scaleY; //Have to invert so that positive values respond as expected.
         this.scrollState = 'inactive';
 
         _makeModifier.call(this);
         Modifier.call(this, this.modifier);
     }
 
+    PositionModifier.DEFAULT_OPTIONS = {
+        actor: undefined,
+        scaleX: 1,
+        scaleY: 1,
+        scrollStart: 0,
+        scrollStop: 0
+    };
+
     PositionModifier.prototype = Object.create(Modifier.prototype);
     PositionModifier.prototype.constructor = PositionModifier;
+
+    PositionModifier.prototype.setOptions = function(options) {
+        this._optionsManager.patch(options);
+    };
 
     PositionModifier.prototype.checkAndUpdate = function(scrollPosition, delta) {
         if ((this.scrollStart === undefined ||

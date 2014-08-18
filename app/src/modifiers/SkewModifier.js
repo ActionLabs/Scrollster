@@ -1,22 +1,43 @@
 define(function(require, exports, module) {
     'use strict';
+    var OptionsManager = require('famous/core/OptionsManager');
     var Modifier       = require('famous/core/Modifier');
     var Transform      = require('famous/core/Transform');
 
-    function SkewModifier(scrollStart, scrollStop, curveFn, phi, theta, psi) {
-        this.scrollStart = scrollStart;
-        this.scrollStop = scrollStop;
-        this.scrollRange = scrollStop - scrollStart;
-        this.curveFn = curveFn;
-        this.phi = phi || 0;
-        this.theta = theta || 0;
-        this.psi = psi || 0;
+    function SkewModifier(options) {
+        this.options = Object.create(SkewModifier.DEFAULT_OPTIONS);
+        this._optionsManager = new OptionsManager(this.options);
+        if (options) this.setOptions(options);
+
+        this.scrollStart = this.options.scrollStart;
+        this.scrollStop = this.options.scrollStop;
+        this.scrollRange = this.options.scrollStop - this.options.scrollStart;
+        this.curveFn = this.options.curveFn;
+        this.phi = this.options.phi;
+        this.theta = this.options.theta;
+        this.psi = this.options.psi;
+
         _makeModifier.call(this);
         Modifier.call(this, this.modifier);
     }
 
+    SkewModifier.DEFAULT_OPTIONS = {
+        scrollStart: 0,
+        scrollStop: 0,
+        curveFn: function(t) {
+            return t;
+        },
+        phi: 0,
+        theta: 0,
+        psi: 0
+    };
+
     SkewModifier.prototype = Object.create(Modifier.prototype);
     SkewModifier.prototype.constructor = SkewModifier;
+
+    SkewModifier.prototype.setOptions = function(options) {
+        this._optionsManager.patch(options);
+    };
 
     SkewModifier.prototype.checkAndUpdate = function(scrollPosition, delta) {
         var progress = this.curveFn((scrollPosition - this.scrollStart) / this.scrollRange);
