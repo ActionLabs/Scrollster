@@ -2,6 +2,7 @@ define(function(require, exports, module) {
     'use strict';
     var View          = require('famous/core/View');
     var Surface       = require('famous/core/Surface');
+    var Modifier      = require('famous/core/Modifier');
     var ModifierChain = require('famous/modifiers/ModifierChain');
     var UnitConverter = require('tools/UnitConverter');
 
@@ -69,11 +70,23 @@ define(function(require, exports, module) {
 
         this.mainSurface.pipe(scrollSync);
 
+        _createBaseModifier.call(this); // Ensures actor always has a position modifier
         this.add(this.modifierChain).add(this.mainSurface);
     };
 
     function _listenToScroll() {
         this._eventInput.on('ScrollUpdated', _updateScrollValue.bind(this));
+    }
+
+    function _createBaseModifier() {
+        var baseModifier = new Modifier({
+            origin: [0.5, 0.5],
+            align: function() {
+                return [this.xPosition, this.yPosition];
+            }.bind(this)
+        });
+
+        this.modifierChain.addModifier(baseModifier);
     }
 
     function _updateScrollValue(data) {
