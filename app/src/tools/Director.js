@@ -13,8 +13,9 @@ define(function(require, exports, module) {
         var actionFactory = new ActionFactory();
 
         for (var actorName in actorDescriptions) {
-            if (actorDescriptions[actorName].type) {
-                actorDescriptions[actorName].properties.zIndex = actorDescriptions[actorName].zIndex;
+            // Make sure the zIndex is included in the properties
+            if (actorDescriptions[actorName].zPosition && actorDescriptions[actorName].properties) {
+                actorDescriptions[actorName].properties.zPosition = actorDescriptions[actorName].zPosition;
             }
 
             // Make sure size is in pixels.
