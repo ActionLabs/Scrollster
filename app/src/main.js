@@ -22,9 +22,10 @@ define(function(require, exports, module) {
             properties: {
                 backfaceVisibility: 'visible'
             },
-            size: [1920, 1080],
+            size: ['100%', '100%'],
             position: [150, 150],
-            classes: ['z2']
+            classes: ['z2'],
+            zPosition: 1
         },
         'Demo Two': {
             type: 'html',
@@ -32,6 +33,7 @@ define(function(require, exports, module) {
             size: [100, 100],
             position: [800, 200],
             classes: ['z1'],
+            zPosition: 100,
             properties: {
                 fontSize: '2em',
                 padding: '.5em',
@@ -78,7 +80,7 @@ define(function(require, exports, module) {
             stop: 1000,
             type: 'moveTo',
             properties: {
-                location: [720, 450],
+                location: ['50%', '50%'],
                 curve: 'easeOutBounce'
             }
         },
