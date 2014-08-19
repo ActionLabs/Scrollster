@@ -31,7 +31,8 @@ define(function(require, exports, module) {
                                                   actorDescriptions[actorName].content,
                                                   actorDescriptions[actorName].classes,
                                                   actorDescriptions[actorName].properties,
-                                                  actorDescriptions[actorName].size
+                                                  actorDescriptions[actorName].size,
+                                                  actorDescriptions[actorName].opacity
                                                   );
             this.actors[actorName] = newActor;
             newActor.setPositionPixels(actorDescriptions[actorName].position[0], actorDescriptions[actorName].position[1]);

@@ -10,7 +10,7 @@ define(function(require, exports, module) {
           this.actors = {};
     }
 
-    ActorFactory.prototype.makeActor = function(name, type, content, classes, properties, size, scrollStart, scrollStop) {
+    ActorFactory.prototype.makeActor = function(name, type, content, classes, properties, size, opacity, scrollStart, scrollStop) {
         var newSurface;
 
         // Ensure backface visibility is set for all new surfaces.
@@ -40,7 +40,8 @@ define(function(require, exports, module) {
 
         var newActor = new ActorView({
             name: name,
-            zPosition: properties.zPosition
+            zPosition: properties.zPosition,
+            opacity: opacity !== undefined ? opacity : 1
         });
 
         newActor.addSurface(newSurface);
