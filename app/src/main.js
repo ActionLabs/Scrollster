@@ -25,7 +25,8 @@ define(function(require, exports, module) {
             size: ['100%', '100%'],
             position: [150, 150],
             classes: ['z2'],
-            zPosition: 1
+            zPosition: 1,
+            opacity: 0.08
         },
         'Demo Two': {
             type: 'html',
@@ -34,6 +35,7 @@ define(function(require, exports, module) {
             position: [800, 200],
             classes: ['z1'],
             zPosition: 100,
+            opacity: 0,
             properties: {
                 fontSize: '2em',
                 padding: '.5em',
@@ -89,7 +91,9 @@ define(function(require, exports, module) {
             start: 0,
             stop: 1000,
             type: 'opacity',
-            properties: {}
+            properties: {
+                finalOpacity: 1
+            }
         },
         {
             actor: 'Demo Two',
@@ -138,6 +142,16 @@ define(function(require, exports, module) {
             type: 'opacity',
             properties: {
                 curve: 'linear'
+            }
+        },
+        {
+            actor: 'Demo Two',
+            start: 1200,
+            stop: 2000,
+            type: 'opacity',
+            properties: {
+                curve: 'linear',
+                finalOpacity: 0
             }
         }
     ];

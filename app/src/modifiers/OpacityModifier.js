@@ -8,26 +8,26 @@ define(function(require, exports, module) {
         this._optionsManager = new OptionsManager(this.options);
         if (options) this.setOptions(options);
 
-        this.fadeOut = this.options.fadeOut;
-        this.initialOpacity = this.options.fadeOut === true ? 1 : 0;
-        this.finalOpacity = this.options.fadeOut === true ? 0 : 1;
+        this.actor = this.options.actor;
+        this.initialOpacity = undefined;
+        this.finalOpacity = this.options.finalOpacity;
         this.scrollStart = this.options.scrollStart;
         this.scrollStop = this.options.scrollStop;
         this.scrollRange = this.options.scrollStop - this.options.scrollStart;
         this.curveFn = this.options.curveFn;
-        this.opacity = this.initialOpacity;
 
         _makeModifier.call(this);
         Modifier.call(this, this.modifier);
     }
 
     OpacityModifier.DEFAULT_OPTIONS = {
+        actor: undefined,
         scrollStart: 0,
         scrollStop: 0,
+        finalOpacity: 1,
         curveFn: function(t) {
             return t;
-        },
-        fadeOut: false
+        }
     };
 
     OpacityModifier.prototype = Object.create(Modifier.prototype);
@@ -41,23 +41,24 @@ define(function(require, exports, module) {
         if (scrollPosition > this.scrollStart &&
             scrollPosition < this.scrollStop) {
 
-            if (this.fadeOut) {
-                this.opacity = 1 - this.curveFn((scrollPosition - this.scrollStart) / this.scrollRange);
-            } else {
-                this.opacity = this.curveFn((scrollPosition - this.scrollStart) / this.scrollRange);
-            }
+            if (this.initialOpacity === undefined) this.initialOpacity = this.actor.opacity;
 
+            var range = this.finalOpacity - this.initialOpacity;
+
+            this.actor.opacity = this.initialOpacity + (range * this.curveFn((scrollPosition - this.scrollStart) / this.scrollRange));
         } else if (scrollPosition <= this.scrollStart) {
-            this.opacity = this.initialOpacity;
+            if (this.initialOpacity !== undefined) {
+                this.actor.opacity = this.initialOpacity;
+            }
         } else if (scrollPosition >= this.scrollStop) {
-            this.opacity = this.finalOpacity;
+            this.actor.opacity = this.finalOpacity;
         }
     };
 
     function _makeModifier() {
         this.modifier = {
             opacity: function() {
-                return this.opacity;
+                return this.actor.opacity;
             }.bind(this)
         };
     }

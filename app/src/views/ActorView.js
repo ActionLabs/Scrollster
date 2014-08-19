@@ -17,6 +17,7 @@ define(function(require, exports, module) {
         this.zPosition = this.options.zPosition;
         this.scaleX = this.options.scaleX;
         this.scaleY = this.options.scaleY;
+        this.opacity = this.options.opacity;
         this.destination = this.options.destination;
         this.name = this.options.name;
 
@@ -28,6 +29,7 @@ define(function(require, exports, module) {
         xPosition: 0.5,
         yPosition: 0.5,
         zPosition: 0,
+        opacity: 1,
         destination: undefined,
         surfaceOptions: {
             size: [300, 300],

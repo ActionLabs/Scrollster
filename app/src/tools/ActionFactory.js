@@ -49,10 +49,11 @@ define(function(require, exports, module) {
                                             axis: properties.axis,
                                             scale: properties.scale});
         } else if (type === 'opacity') {
-            newAction = new OpacityModifier({scrollStart: scrollStart,
+            newAction = new OpacityModifier({actor: actor,
+                                             scrollStart: scrollStart,
                                              scrollStop: scrollStop,
                                              curveFn: properties.curveFn,
-                                             fadeOut: properties ? properties.fadeOut : undefined});
+                                             finalOpacity: properties && properties.finalOpacity !== undefined ? properties.finalOpacity : 1});
         } else if (type === 'scale') {
             newAction = new ScaleModifier({scrollStart: scrollStart,
                                            scrollStop: scrollStop,
