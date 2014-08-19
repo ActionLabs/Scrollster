@@ -16,128 +16,185 @@ define(function(require, exports, module) {
     var director = new Director();
 
     var actorDescriptions = {
-        'Demo Actor': {
+        Ground: {
             type: 'image',
-            content: 'content/images/scrollster-name-main.001.jpg',
+            content: 'content/images/ground.jpg',
+            zIndex: 3,
             properties: {
-                backfaceVisibility: 'visible'
             },
-            size: [1920, 1080],
-            position: [150, 150],
-            classes: ['z2']
+            size: [window.innerWidth, window.innerHeight],
+            position: [0, 0]
         },
-        'Demo Two': {
-            type: 'html',
-            content: 'Hi!',
-            size: [100, 100],
-            position: [800, 200],
-            classes: ['z1'],
+        Sky1: {
+            type: 'image',
+            content: 'content/images/sky1.jpg',
+            zIndex: 3,
             properties: {
-                fontSize: '2em',
-                padding: '.5em',
-                backfaceVisibility: 'visible',
-                backgroundColor: 'blue'
-            }
+
+            },
+            size: [window.innerWidth, window.innerHeight],
+            position: [0, 0]
+        },
+        Sky2: {
+            type: 'image',
+            content: 'content/images/sky2.jpg',
+            zIndex: 3,
+            properties: {
+
+            },
+            size: [window.innerWidth, window.innerHeight],
+            position: [0, 0]
+        },
+        Balloon: {
+            type: 'image',
+            content: 'content/images/balloon_red.png',
+            zIndex: 14,
+            properties: {
+
+            },
+            size: [20, 27],
+            position: [150, 400]
+        },
+        Eagle: {
+            type: 'image',
+            content: 'content/images/eagle.png',
+            zIndex: 13,
+            properties: {
+
+            },
+            size: [64, 44],
+            position: [250, 300]
         }
     };
 
     var actionDescriptions = [
+        // Balloon movement
         {
-            actor: 'Demo Two',
-            start: 1000,
-            stop: 1100,
-            type: 'skew',
-            properties: {
-                psi: 0.25
-            }
-        },
-        {
-            actor: 'Demo Actor',
+            actor: 'Balloon',
             start: 0,
-            stop: 1000,
-            type: 'rotateTo',
-            properties: {
-                axis: 'y',
-                angleInDegrees: 720,
-                curve: 'easeOutBounce'
-            }
-        },
-        {
-            actor: 'Demo Actor',
-            start: 0,
-            stop: 600,
-            type: 'position',
-            properties: {
-                scaleX: 0,
-                scaleY: -1
-            }
-        },
-        {
-            actor: 'Demo Actor',
-            start: 600,
             stop: 1000,
             type: 'moveTo',
             properties: {
-                location: [720, 450],
-                curve: 'easeOutBounce'
+                location: [150, 0],
+                curve: 'easeIn'
             }
         },
         {
-            actor: 'Demo Actor',
-            start: 0,
+            actor: 'Balloon',
+            start: 1000,
             stop: 1000,
-            type: 'opacity',
-            properties: {}
-        },
-        {
-            actor: 'Demo Two',
-            start: 1000,
-            stop: 2000,
-            type: 'scale',
+            type: 'moveTo',
             properties: {
-                changeRatioX: 4,
-                changeRatioY: 4,
-                curve: 'easeOut'
+                location: [150, window.innerHeight],
+                curve: 'easeIn'
             }
         },
         {
-            actor: 'Demo Two',
+            actor: 'Balloon',
             start: 1000,
-            stop: 2000,
-            type: 'rotateTo',
-            properties: {
-                axis: 'y',
-                angleInDegrees: 540
-            }
-        },
-        {
-            actor: 'Demo Two',
-            start: 1000,
-            stop: 1600,
-            type: 'position',
-            properties: {
-                scaleX: 0,
-                scaleY: -1
-            }
-        },
-        {
-            actor: 'Demo Two',
-            start: 1600,
             stop: 2000,
             type: 'moveTo',
             properties: {
-                location: [720, 450]
+                location: [150, 0],
+                curve: 'easeIn'
             }
         },
         {
-            actor: 'Demo Two',
+            actor: 'Balloon',
+            start: 2000,
+            stop: 2000,
+            type: 'moveTo',
+            properties: {
+                location: [150, window.innerHeight],
+                curve: 'easeIn'
+            }
+        },
+        {
+            actor: 'Balloon',
+            start: 2000,
+            stop: 3000,
+            type: 'moveTo',
+            properties: {
+                location: [150, 0],
+                curve: 'easeIn'
+            }
+        },
+
+        // Background changes
+        {
+            actor: 'Ground',
             start: 1000,
-            stop: 1200,
+            stop: 1000,
             type: 'opacity',
             properties: {
-                curve: 'linear'
+                fadeOut: true
+            }
+        },
+        {
+            actor: 'Sky1',
+            start: 1000,
+            stop: 1000,
+            type: 'opacity',
+            properties: {
+            }
+        },
+        {
+            actor: 'Sky1',
+            start: 2000,
+            stop: 2000,
+            type: 'opacity',
+            properties: {
+                fadeOut: true
+            }
+        },
+        {
+            actor: 'Sky2',
+            start: 2000,
+            stop: 2000,
+            type: 'opacity',
+            properties: {
+            }
+        },
+        {
+            actor: 'Sky2',
+            start: 3000,
+            stop: 3000,
+            type: 'opacity',
+            properties: {
+                fadeOut: true
+            }
+        },
+
+        // Eagle
+        {
+            actor: 'Eagle',
+            start: 1000,
+            stop: 1000,
+            type: 'opacity',
+            properties: {
+            }
+        },
+        {
+            actor: 'Eagle',
+            start: 1000,
+            stop: 2000,
+            type: 'moveTo',
+            properties: {
+                location: [80, 200],
+                curve: 'easeIn'
+            }
+        },
+        {
+            actor: 'Eagle',
+            start: 2000,
+            stop: 2000,
+            type: 'opacity',
+            properties: {
+                fadeOut: true
             }
         }
+
+
     ];
 
     director.populateStage(stageView, actorDescriptions, actionDescriptions);
