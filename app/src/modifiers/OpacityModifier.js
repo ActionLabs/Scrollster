@@ -16,6 +16,10 @@ define(function(require, exports, module) {
         this.scrollRange = this.options.scrollStop - this.options.scrollStart;
         this.curveFn = this.options.curveFn;
 
+        // checks to make sure boundaries are not set more than once when out of range
+        this.upperSet = false;
+        this.lowerSet = false;
+
         _makeModifier.call(this);
         Modifier.call(this, this.modifier);
     }
@@ -46,12 +50,18 @@ define(function(require, exports, module) {
             var range = this.finalOpacity - this.initialOpacity;
 
             this.actor.opacity = this.initialOpacity + (range * this.curveFn((scrollPosition - this.scrollStart) / this.scrollRange));
-        } else if (scrollPosition <= this.scrollStart) {
+
+            //Reset the boundaries since we're in the range
+            this.upperSet = false;
+            this.lowerSet = false;
+        } else if (scrollPosition <= this.scrollStart && !this.lowerSet) {
             if (this.initialOpacity !== undefined) {
                 this.actor.opacity = this.initialOpacity;
+                this.lowerSet = true;
             }
-        } else if (scrollPosition >= this.scrollStop) {
+        } else if (scrollPosition >= this.scrollStop && !this.upperSet) {
             this.actor.opacity = this.finalOpacity;
+            this.upperSet = true;
         }
     };
 
