@@ -3,6 +3,7 @@ define(function(require, exports, module) {
     var View          = require('famous/core/View');
     var Surface       = require('famous/core/Surface');
     var Modifier      = require('famous/core/Modifier');
+    var Transform     = require('famous/core/Transform');
     var ModifierChain = require('famous/modifiers/ModifierChain');
     var UnitConverter = require('tools/UnitConverter');
 
@@ -13,6 +14,7 @@ define(function(require, exports, module) {
         this.scrollProgress = 0;
         this.xPosition = this.options.xPosition;
         this.yPosition = this.options.yPosition;
+        this.zPosition = this.options.zPosition;
         this.scaleX = this.options.scaleX;
         this.scaleY = this.options.scaleY;
         this.destination = this.options.destination;
@@ -25,6 +27,7 @@ define(function(require, exports, module) {
         name: undefined,
         xPosition: 0.5,
         yPosition: 0.5,
+        zPosition: 0,
         destination: undefined,
         surfaceOptions: {
             size: [300, 300],
@@ -83,7 +86,8 @@ define(function(require, exports, module) {
             origin: [0.5, 0.5],
             align: function() {
                 return [this.xPosition, this.yPosition];
-            }.bind(this)
+            }.bind(this),
+            transform: Transform.translate(0, 0, this.zPosition)
         });
 
         this.modifierChain.addModifier(baseModifier);

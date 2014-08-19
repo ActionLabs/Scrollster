@@ -39,7 +39,8 @@ define(function(require, exports, module) {
         }
 
         var newActor = new ActorView({
-            name: name
+            name: name,
+            zPosition: properties.zPosition
         });
 
         newActor.addSurface(newSurface);
