@@ -71,10 +71,10 @@ define(function(require, exports, module) {
             // otherwise units are assumed to be pixels.
             if (checkVal.charAt(checkVal.length - 1) === '%') {
                 if (i === 0) {
-                    result[i] = UnitConverter.percentageToPixelsX(parseInt(checkVal.slice(0, checkVal.length - 1)));
+                    result[i] = UnitConverter.percentageToPixelsX(parseFloat(checkVal.slice(0, checkVal.length - 1)));
                 }
                 if (i === 1) {
-                    result[i] = UnitConverter.percentageToPixelsY(parseInt(checkVal.slice(0, checkVal.length - 1)));
+                    result[i] = UnitConverter.percentageToPixelsY(parseFloat(checkVal.slice(0, checkVal.length - 1)));
                 }
             } else {
                 result[i] = initial[i];

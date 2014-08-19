@@ -28,11 +28,11 @@ define(function(require, exports, module) {
     };
 
     UnitConverter.percentageToPixelsX = function (percentage) {
-      return UnitConverter.ratioXtoPixels(percentage / 100); 
+      return Math.round(UnitConverter.ratioXtoPixels(percentage / 100)); 
     }
 
     UnitConverter.percentageToPixelsY = function (percentage) {
-      return UnitConverter.ratioYtoPixels(percentage / 100); 
+      return Math.round(UnitConverter.ratioYtoPixels(percentage / 100)); 
     }
 
     module.exports = UnitConverter;
