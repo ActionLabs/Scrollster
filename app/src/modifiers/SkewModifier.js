@@ -13,9 +13,9 @@ define(function(require, exports, module) {
         this.scrollStop = this.options.scrollStop;
         this.scrollRange = this.options.scrollStop - this.options.scrollStart;
         this.curveFn = this.options.curveFn;
-        this.phi = this.options.phi;
-        this.theta = this.options.theta;
-        this.psi = this.options.psi;
+        this.scaleX = this.options.scaleX;
+        this.scaleY = this.options.scaleY;
+        this.scaleZ = this.options.scaleZ;
 
         _makeModifier.call(this);
         Modifier.call(this, this.modifier);
@@ -27,9 +27,9 @@ define(function(require, exports, module) {
         curveFn: function(t) {
             return t;
         },
-        phi: 0,
-        theta: 0,
-        psi: 0
+        scaleX: 0,
+        scaleY: 0,
+        scaleZ: 0
     };
 
     SkewModifier.prototype = Object.create(Modifier.prototype);
@@ -44,17 +44,17 @@ define(function(require, exports, module) {
 
         if (scrollPosition > this.scrollStart &&
             scrollPosition < this.scrollStop) {
-            this.skewX = progress * this.phi;
-            this.skewY = progress * this.theta;
-            this.skewZ = progress * this.psi;
+            this.skewX = progress * this.scaleX;
+            this.skewY = progress * this.scaleY;
+            this.skewZ = progress * this.scaleZ;
         } else if (scrollPosition <= this.scrollStart) {
             this.skewX = 0;
             this.skewY = 0;
             this.skewZ = 0;
         } else if (scrollPosition >= this.scrollStop) {
-            this.skewX = this.phi;
-            this.skewY = this.theta;
-            this.skewZ = this.psi;
+            this.skewX = this.scaleX;
+            this.skewY = this.scaleY;
+            this.skewZ = this.scaleZ;
         }
     };
 

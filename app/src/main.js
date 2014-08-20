@@ -52,7 +52,7 @@ define(function(require, exports, module) {
             stop: 1100,
             type: 'skew',
             properties: {
-                psi: 0.25
+                scaleZ: 0.5
             }
         },
         {
