@@ -111,9 +111,10 @@ define(function(require, exports, module) {
                         delete this._arrowData.interval;
                     } else {
                         if (this.worldScrollValue > this._arrowData.breakpoints[this._arrowData.index]) {
-                            this.worldScrollValue -= Math.min(this._arrowData.step, this.worldScrollValue - this._arrowData.breakpoints[this._arrowData.index]);
+                            var currentStep = Math.min(this._arrowData.step, this.worldScrollValue - this._arrowData.breakpoints[this._arrowData.index]); 
+                            this.worldScrollValue -= currentStep;
                             this.scrollInfo.setContent('Scroll Value: ' + this.worldScrollValue);
-                            this._eventOutput.emit('ScrollUpdated', {delta: -this._arrowData.step});
+                            this._eventOutput.emit('ScrollUpdated', {delta: -currentStep});
                         } else {
                             Timer.clear(this._arrowData.interval);
                             delete this._arrowData.interval;
@@ -137,9 +138,10 @@ define(function(require, exports, module) {
                         delete this._arrowData.interval;
                     } else {
                         if (this.worldScrollValue < this._arrowData.breakpoints[this._arrowData.index]) {
-                            this.worldScrollValue += Math.min(this._arrowData.step, this._arrowData.breakpoints[this._arrowData.index] - this.worldScrollValue);
+                            var currentStep = Math.min(this._arrowData.step, this._arrowData.breakpoints[this._arrowData.index] - this.worldScrollValue);
+                            this.worldScrollValue += currentStep; 
                             this.scrollInfo.setContent('Scroll Value: ' + this.worldScrollValue);
-                            this._eventOutput.emit('ScrollUpdated', {delta: this._arrowData.step});
+                            this._eventOutput.emit('ScrollUpdated', {delta: currentStep});
                         } else {
                             Timer.clear(this._arrowData.interval);
                             delete this._arrowData.interval;
