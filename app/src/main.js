@@ -119,7 +119,7 @@ define(function(require, exports, module) {
             type: 'html',
             zIndex: 12,
             properties: {
-                backgroundColor: '#FFFF00'
+                backgroundColor: '#FFFF00',
             },
             size: [20, 2],
             position: ['50%', 29]
@@ -588,7 +588,7 @@ define(function(require, exports, module) {
         {
             actor: 'Spaceship',
             start: 6000,
-            stop: 6500,
+            stop: 6100,
             type: 'moveTo',
             properties: {
                 location: [50, 150],
@@ -597,8 +597,8 @@ define(function(require, exports, module) {
         },
         {
             actor: 'Spaceship',
-            start: 6500,
-            stop: 7000,
+            start: 6100,
+            stop: 6400,
             type: 'moveTo',
             properties: {
                 location: [50, 108],
@@ -607,8 +607,8 @@ define(function(require, exports, module) {
         },
         {
             actor: 'Spaceship',
-            start: 7000,
-            stop: 7500,
+            start: 6600,
+            stop: 7100,
             type: 'moveTo',
             properties: {
                 location: [50, 150],
@@ -617,8 +617,8 @@ define(function(require, exports, module) {
         },
         {
             actor: 'Spaceship',
-            start: 7500,
-            stop: 8000,
+            start: 7100,
+            stop: 7600,
             type: 'moveTo',
             properties: {
                 location: [100, 244],
@@ -627,8 +627,8 @@ define(function(require, exports, module) {
         },
         {
             actor: 'Spaceship',
-            start: 8000,
-            stop: 8500,
+            start: 7600,
+            stop: 7900,
             type: 'moveTo',
             properties: {
                 location: [100, 200],
@@ -637,8 +637,8 @@ define(function(require, exports, module) {
         },
         {
             actor: 'Spaceship',
-            start: 8500,
-            stop: 9000,
+            start: 7900,
+            stop: 8600,
             type: 'moveTo',
             properties: {
                 location: [100, 150],
@@ -647,8 +647,8 @@ define(function(require, exports, module) {
         },
         {
             actor: 'Spaceship',
-            start: 9000,
-            stop: 9500,
+            start: 8600,
+            stop: 8900,
             type: 'moveTo',
             properties: {
                 location: [1500, 50],
@@ -657,15 +657,15 @@ define(function(require, exports, module) {
         },
         {
             actor: 'Laser1',
-            start: 7055,
-            stop: 7065,
+            start: 6655,
+            stop: 6665,
             type: 'opacity',
             properties: {}
         },
         {
             actor: 'Laser1',
-            start: 7000,
-            stop: 7500,
+            start: 6600,
+            stop: 7100,
             type: 'moveTo',
             properties: {
                 location: [250, 115]
@@ -673,8 +673,8 @@ define(function(require, exports, module) {
         },
         {
             actor: 'Laser1',
-            start: 7500,
-            stop: 7500,
+            start: 7100,
+            stop: 7100,
             type: 'opacity',
             properties: {
                 fadeOut: true
@@ -682,15 +682,15 @@ define(function(require, exports, module) {
         },
         {
             actor: 'Laser2',
-            start: 8059,
-            stop: 8069,
+            start: 7659,
+            stop: 7669,
             type: 'opacity',
             properties: {}
         },
         {
             actor: 'Laser2',
-            start: 8000,
-            stop: 8500,
+            start: 7600,
+            stop: 8100,
             type: 'moveTo',
             properties: {
                 location: [250, 250]
@@ -698,8 +698,8 @@ define(function(require, exports, module) {
         },
         {
             actor: 'Laser2',
-            start: 8500,
-            stop: 8500,
+            start: 8100,
+            stop: 8100,
             type: 'opacity',
             properties: {
                 fadeOut: true
@@ -707,8 +707,8 @@ define(function(require, exports, module) {
         },
         {
             actor: 'Alien1',
-            start: 6000,
-            stop: 7500,
+            start: 5600,
+            stop: 7100,
             type: 'moveTo',
             properties: {
                 location: [250, 115],
@@ -717,8 +717,8 @@ define(function(require, exports, module) {
         },
         {
             actor: 'Alien1',
-            start: 7500,
-            stop: 7500,
+            start: 7100,
+            stop: 7100,
             type: 'opacity',
             properties: {
                 fadeOut: true
@@ -726,8 +726,8 @@ define(function(require, exports, module) {
         },
         {
             actor: 'Alien2',
-            start: 6000,
-            stop: 8500,
+            start: 5600,
+            stop: 8100,
             type: 'moveTo',
             properties: {
                 location: [250, 250],
@@ -736,8 +736,8 @@ define(function(require, exports, module) {
         },
         {
             actor: 'Alien2',
-            start: 8500,
-            stop: 8500,
+            start: 8100,
+            stop: 8100,
             type: 'opacity',
             properties: {
                 fadeOut: true
@@ -745,8 +745,8 @@ define(function(require, exports, module) {
         },
         {
             actor: 'Explosion1',
-            start: 7500,
-            stop: 10000,
+            start: 7100,
+            stop: 9600,
             type: 'scale',
             properties: {
                 changeRatioX: 2,
@@ -765,15 +765,15 @@ define(function(require, exports, module) {
         },
         {
             actor: 'Explosion1',
-            start: 7500,
-            stop: 7500,
+            start: 7100,
+            stop: 7100,
             type: 'opacity',
             properties: {}
         },
         {
             actor: 'Explosion2',
-            start: 8500,
-            stop: 10000,
+            start: 8100,
+            stop: 9600,
             type: 'scale',
             properties: {
                 changeRatioX: 2,
@@ -792,8 +792,8 @@ define(function(require, exports, module) {
         },
         {
             actor: 'Explosion2',
-            start: 8500,
-            stop: 8500,
+            start: 8100,
+            stop: 8100,
             type: 'opacity',
             properties: {}
         },
@@ -819,8 +819,8 @@ define(function(require, exports, module) {
         },
         {
             actor: 'Scrollster',
-            start: 9000,
-            stop: 9500,
+            start: 8600,
+            stop: 9100,
             type: 'opacity',
             properties: {}
         },
