@@ -123,6 +123,91 @@ define(function(require, exports, module) {
             },
             size: [20, 2],
             position: ['50%', 29]
+        },
+
+    // EXPERIMENTAL
+
+        'Spaceship': {
+            type: 'image',
+            content: 'content/images/spaceship.png',
+            zIndex: 13,
+            properties: {
+                fontSize: '2em',
+                padding: '.5em',
+            },
+            size: [112, 78.5],
+            position: [-150, 100]
+        },
+        'Laser1': {
+            type: 'html',
+            zIndex: 14,
+            properties: {
+                backgroundColor: '#FFFF00',
+                borderRadius: '50%'
+            },
+            size: [10, 2.5],
+            position: [50, 115]
+        },
+        'Laser2': {
+            type: 'html',
+            zIndex: 14,
+            properties: {
+                backgroundColor: '#FFFF00',
+                borderRadius: '50%'
+            },
+            size: [10, 2.5],
+            position: [100, 250]
+        },
+        'Alien1': {
+            type: 'image',
+            zIndex: 10,
+            content: 'content/images/alien.png',
+            properties: {
+
+            },
+            size: [50, 36.25],
+            position: [window.innerWidth + 150, -250]
+        },
+        'Alien2': {
+            type: 'image',
+            zIndex: 12,
+            content: 'content/images/alien.png',
+            properties: {
+
+            },
+            size: [50, 36.25],
+            position: [window.innerWidth + 150, -250]
+        },
+        'Explosion1': {
+            type: 'image',
+            zIndex: 11,
+            content: 'content/images/explosion.png',
+            properties: {
+
+            },
+            size: [103, 103],
+            position: [400, 115]
+        },
+        'Explosion2': {
+            type: 'image',
+            zIndex: 11,
+            content: 'content/images/explosion.png',
+            properties: {
+
+            },
+            size: [103, 103],
+            position: [400, 250]
+        },
+        'Scrollster': {
+            type: 'html',
+            content: '<h1>Scrollster</h1>',
+            zIndex: 15,
+            properties: {
+                color: '#FFF',
+                fontFamily: 'monospace',
+            },
+            size: [50, 25],
+            position: [-250, -250]
         }
     };
 
@@ -299,15 +384,6 @@ define(function(require, exports, module) {
 
             }
         },
-        {
-            actor: 'Space',
-            start: 6000,
-            stop: 6000,
-            type: 'opacity',
-            properties: {
-                fadeOut: true
-            }
-        },
 
         // Eagle
         {
@@ -442,9 +518,19 @@ define(function(require, exports, module) {
             stop: 6000,
             type: 'moveTo',
             properties: {
-                location: ['100%', '50%']
+                location: ['120%', '50%']
             }
         },
+        {
+            actor: 'UFO',
+            start: 6000,
+            stop: 6000,
+            type: 'opacity',
+            properties: {
+                fadeOut: true
+            }
+        },
+
 
 
         //Beam
@@ -497,9 +583,258 @@ define(function(require, exports, module) {
         },
 
 
- 
+    // EXPERIMENTAL
 
-
+        {
+            actor: 'Spaceship',
+            start: 6000,
+            stop: 6500,
+            type: 'moveTo',
+            properties: {
+                location: [50, 150],
+                curve: 'easeIn'
+            }
+        },
+        {
+            actor: 'Spaceship',
+            start: 6500,
+            stop: 7000,
+            type: 'moveTo',
+            properties: {
+                location: [50, 108],
+                curve: 'easeIn'
+            }
+        },
+        {
+            actor: 'Spaceship',
+            start: 7000,
+            stop: 7500,
+            type: 'moveTo',
+            properties: {
+                location: [50, 150],
+                curve: 'easeIn'
+            }
+        },
+        {
+            actor: 'Spaceship',
+            start: 7500,
+            stop: 8000,
+            type: 'moveTo',
+            properties: {
+                location: [100, 244],
+                curve: 'easeIn'
+            }
+        },
+        {
+            actor: 'Spaceship',
+            start: 8000,
+            stop: 8500,
+            type: 'moveTo',
+            properties: {
+                location: [100, 200],
+                curve: 'easeIn'
+            }
+        },
+        {
+            actor: 'Spaceship',
+            start: 8500,
+            stop: 9000,
+            type: 'moveTo',
+            properties: {
+                location: [100, 150],
+                curve: 'easeIn'
+            }
+        },
+        {
+            actor: 'Spaceship',
+            start: 9000,
+            stop: 9500,
+            type: 'moveTo',
+            properties: {
+                location: [1500, 50],
+                curve: 'easeIn'
+            }
+        },
+        {
+            actor: 'Laser1',
+            start: 7055,
+            stop: 7065,
+            type: 'opacity',
+            properties: {}
+        },
+        {
+            actor: 'Laser1',
+            start: 7000,
+            stop: 7500,
+            type: 'moveTo',
+            properties: {
+                location: [250, 115]
+            }
+        },
+        {
+            actor: 'Laser1',
+            start: 7500,
+            stop: 7500,
+            type: 'opacity',
+            properties: {
+                fadeOut: true
+            }
+        },
+        {
+            actor: 'Laser2',
+            start: 8059,
+            stop: 8069,
+            type: 'opacity',
+            properties: {}
+        },
+        {
+            actor: 'Laser2',
+            start: 8000,
+            stop: 8500,
+            type: 'moveTo',
+            properties: {
+                location: [250, 250]
+            }
+        },
+        {
+            actor: 'Laser2',
+            start: 8500,
+            stop: 8500,
+            type: 'opacity',
+            properties: {
+                fadeOut: true
+            }
+        },
+        {
+            actor: 'Alien1',
+            start: 6000,
+            stop: 7500,
+            type: 'moveTo',
+            properties: {
+                location: [250, 115],
+                curve: 'easeIn'
+            }
+        },
+        {
+            actor: 'Alien1',
+            start: 7500,
+            stop: 7500,
+            type: 'opacity',
+            properties: {
+                fadeOut: true
+            }
+        },
+        {
+            actor: 'Alien2',
+            start: 6000,
+            stop: 8500,
+            type: 'moveTo',
+            properties: {
+                location: [250, 250],
+                curve: 'easeIn'
+            }
+        },
+        {
+            actor: 'Alien2',
+            start: 8500,
+            stop: 8500,
+            type: 'opacity',
+            properties: {
+                fadeOut: true
+            }
+        },
+        {
+            actor: 'Explosion1',
+            start: 7500,
+            stop: 10000,
+            type: 'scale',
+            properties: {
+                changeRatioX: 2,
+                changeRatioY: 2,
+                curve: 'easeOut'
+            }
+        },
+        {
+            actor: 'Explosion1',
+            start: 0,
+            stop: 0,
+            type: 'moveTo',
+            properties: {
+                location: [250, 115]
+            }
+        },
+        {
+            actor: 'Explosion1',
+            start: 7500,
+            stop: 7500,
+            type: 'opacity',
+            properties: {}
+        },
+        {
+            actor: 'Explosion2',
+            start: 8500,
+            stop: 10000,
+            type: 'scale',
+            properties: {
+                changeRatioX: 2,
+                changeRatioY: 2,
+                curve: 'easeOut'
+            }
+        },
+        {
+            actor: 'Explosion2',
+            start: 0,
+            stop: 0,
+            type: 'moveTo',
+            properties: {
+                location: [250, 250]
+            }
+        },
+        {
+            actor: 'Explosion2',
+            start: 8500,
+            stop: 8500,
+            type: 'opacity',
+            properties: {}
+        },
+        // {
+        //     actor: 'Scrollster',
+        //     start: 9000,
+        //     stop: 9500,
+        //     type: 'scale',
+        //     properties: {
+        //         changeRatioX: 1.2,
+        //         changeRatioY: 1.2,
+        //         curve: 'easeOut'
+        //     }
+        // },
+        {
+            actor: 'Scrollster',
+            start: 0,
+            stop: 0,
+            type: 'moveTo',
+            properties: {
+                location: ['11%', '35%']
+            }
+        },
+        {
+            actor: 'Scrollster',
+            start: 9000,
+            stop: 9500,
+            type: 'opacity',
+            properties: {}
+        },
+        // {
+        //     actor: 'Scrollster',
+        //     start: 9000,
+        //     stop: 10000,
+        //     type: 'rotateTo',
+        //     properties: {
+        //         axis: 'x',
+        //         angleInDegrees: 720,
+        //         curve: 'easeOut'
+        //     }
+        // },
 
     ];
 
