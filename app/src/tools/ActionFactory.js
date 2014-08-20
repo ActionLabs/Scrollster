@@ -64,9 +64,9 @@ define(function(require, exports, module) {
             newAction = new SkewModifier({scrollStart: scrollStart,
                                           scrollStop: scrollStop,
                                           curveFn: properties.curveFn,
-                                          phi: properties.phi || 0,
-                                          theta: properties.theta || 0,
-                                          psi: properties.psi || 0});
+                                          scaleX: properties.scaleX || 0,
+                                          scaleY: properties.scaleY || 0,
+                                          scaleZ: properties.scaleZ || 0});
         }
 
         actor.addModifier(newAction);
