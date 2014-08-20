@@ -18,7 +18,7 @@ define(function(require, exports, module) {
     var actorDescriptions = {
         Ground: {
             type: 'image',
-            content: 'content/images/ground.jpg',
+            content: 'content/images/cropped-ground.jpg',
             zIndex: 3,
             properties: {
             },
@@ -27,7 +27,7 @@ define(function(require, exports, module) {
         },
         Sky1: {
             type: 'image',
-            content: 'content/images/sky1.jpg',
+            content: 'content/images/cropped-sky1.jpg',
             zIndex: 3,
             properties: {
 
@@ -37,7 +37,7 @@ define(function(require, exports, module) {
         },
         Sky2: {
             type: 'image',
-            content: 'content/images/sky2.jpg',
+            content: 'content/images/cropped-sky2.jpg',
             zIndex: 3,
             properties: {
 
@@ -47,7 +47,7 @@ define(function(require, exports, module) {
         },
         Earth: {
             type: 'image',
-            content: 'content/images/earth.jpg',
+            content: 'content/images/cropped-earth.jpg',
             zIndex: 3,
             properties: {
 
@@ -57,12 +57,12 @@ define(function(require, exports, module) {
         },
         Space: {
             type: 'image',
-            content: 'content/images/space.jpg',
+            content: 'content/images/cropped-space.jpg',
             zIndex: 3,
             properties: {
 
             },
-            size: [window.innerWidth, window.innerHeight],
+            size: [window.innerWidth * 2, window.innerHeight],
             position: [0, 0]
         },
         Balloon: {
