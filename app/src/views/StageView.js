@@ -99,7 +99,7 @@ define(function(require, exports, module) {
                         delete this._arrowData.interval;
                     } else {
                         if (this.worldScrollValue > this._arrowData.breakpoints[this._arrowData.index]) {
-                            var currentStep = Math.min(this._arrowData.step, this.worldScrollValue - this._arrowData.breakpoints[this._arrowData.index]); 
+                            var currentStep = Math.min(this._arrowData.step, this.worldScrollValue - this._arrowData.breakpoints[this._arrowData.index]);
                             this.worldScrollValue -= currentStep;
                             _emitScrollUpdate.call(this, currentStep);
                         } else {
@@ -126,7 +126,7 @@ define(function(require, exports, module) {
                     } else {
                         if (this.worldScrollValue < this._arrowData.breakpoints[this._arrowData.index]) {
                             var currentStep = Math.min(this._arrowData.step, this._arrowData.breakpoints[this._arrowData.index] - this.worldScrollValue);
-                            this.worldScrollValue += currentStep; 
+                            this.worldScrollValue += currentStep;
                             _emitScrollUpdate.call(this, -currentStep);
                         } else {
                             Timer.clear(this._arrowData.interval);
