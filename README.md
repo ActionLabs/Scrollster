@@ -1,5 +1,4 @@
-![Scrollster logo](/../mobile_demo/app/content/images/scrollster.png?raw=true)
-#scrollster
+![Scrollster logo](/../mobile_demo/app/content/images/scrollster.png?raw=true "Scrollster")
 > Component for impressive scroll-based animations using the power of Famo.us.
 
 ## Introduction
