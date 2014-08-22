@@ -1,3 +1,4 @@
+![Scrollster logo](/../mobile_demo/app/content/images/scrollster.png?raw=true)
 #scrollster
 > Component for impressive scroll-based animations using the power of Famo.us.
 
