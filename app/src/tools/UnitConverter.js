@@ -27,13 +27,13 @@ define(function(require, exports, module) {
       return radians * (180 / Math.PI);
     };
 
-    UnitConverter.percentageToPixelsX = function (percentage) {
-      return Math.round(UnitConverter.ratioXtoPixels(percentage / 100)); 
-    }
+    UnitConverter.percentageToPixelsX = function(percentage) {
+      return Math.round(UnitConverter.ratioXtoPixels(percentage / 100));
+    };
 
-    UnitConverter.percentageToPixelsY = function (percentage) {
-      return Math.round(UnitConverter.ratioYtoPixels(percentage / 100)); 
-    }
+    UnitConverter.percentageToPixelsY = function(percentage) {
+      return Math.round(UnitConverter.ratioYtoPixels(percentage / 100));
+    };
 
     module.exports = UnitConverter;
 });

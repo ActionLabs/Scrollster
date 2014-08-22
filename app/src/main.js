@@ -15,35 +15,9 @@ define(function(require, exports, module) {
     var stageView = new StageView();
     var director = new Director();
 
-    var actorExampleText = " \
-        <pre> \
-'Presenter Name': { \n\
-    type: 'html', \n\
-    content: 'BOB OWEN', \n\
-    properties: { \n\
-        backfaceVisibility: 'visible', \n\
-        fontSize: '6.5em', \n\
-        textAlign: 'center' \n\
-    }, \n\
-    size: [700, 140], \n\
-    position: ['75%', '50%'], \n\
-    classes: ['z2'] \n\
-}, \n\
-        </pre>";
+    var actorExampleText = '<pre>\'Presenter Name\': { \n    type: \'html\', \n    content: \'BOB OWEN\', \n    properties: { \n        backfaceVisibility: \'visible\', \n        fontSize: \'6.5em\', \n        textAlign: \'center\' \n    }, \n    size: [700, 140], \n    position: [\'75%\', \'50%\'], \n    classes: [\'z2\'] \n}, \n</pre>';
 
-    var actionExampleText = " \
-<pre> \
-{ \n\
-    actor: 'Presenter Name', \n\
-    start: 7001, \n\
-    stop: 8000, \n\
-    type: 'rotateTo', \n\
-    properties: { \n\
-        axis: 'x', \n\
-        angleInDegrees: 720, \n\
-    } \n\
-}, \n\
-</pre>";
+    var actionExampleText = '<pre>{ \n    actor: \'Presenter Name\', \n    start: 7001, \n    stop: 8000, \n    type: \'rotateTo\', \n    properties: { \n        axis: \'x\', \n        angleInDegrees: 720, \n    } \n}, \n</pre>';
 
     var actorDescriptions = {
         'Scrollster': {
@@ -625,7 +599,7 @@ define(function(require, exports, module) {
             type: 'position',
             properties: {
                 scaleX: 0.5,
-                scaleY: 0,
+                scaleY: 0
             }
         },
         {
@@ -635,7 +609,7 @@ define(function(require, exports, module) {
             type: 'position',
             properties: {
                 scaleX: 0,
-                scaleY: -2,
+                scaleY: -2
             }
         },
         {
@@ -653,7 +627,7 @@ define(function(require, exports, module) {
             stop: 17000,
             type: 'moveTo',
             properties: {
-                location: ['25%', '25%'],
+                location: ['25%', '25%']
             }
         },
         {
@@ -663,7 +637,7 @@ define(function(require, exports, module) {
             type: 'position',
             properties: {
                 scaleX: 0,
-                scaleY: -3,
+                scaleY: -3
             }
         },
         {
@@ -692,7 +666,7 @@ define(function(require, exports, module) {
             type: 'position',
             properties: {
                 scaleX: 0,
-                scaleY: -2,
+                scaleY: -2
             }
         },
         {
@@ -711,7 +685,7 @@ define(function(require, exports, module) {
             type: 'scale',
             properties: {
                 changeRatioX: 3,
-                changeRatioY: 3,
+                changeRatioY: 3
             }
         },
         {
@@ -721,7 +695,7 @@ define(function(require, exports, module) {
             type: 'position',
             properties: {
                 scaleX: 0,
-                scaleY: -4,
+                scaleY: -4
             }
         },
         {
@@ -739,7 +713,7 @@ define(function(require, exports, module) {
             stop: 23000,
             type: 'skew',
             properties: {
-                scaleZ: 0.75,
+                scaleZ: 0.75
             }
         },
         {
@@ -749,7 +723,7 @@ define(function(require, exports, module) {
             type: 'position',
             properties: {
                 scaleX: 0,
-                scaleY: -4,
+                scaleY: -4
             }
         },
         {
@@ -774,7 +748,7 @@ define(function(require, exports, module) {
         {
             actor: 'Scrollster Final',
             start: 23500,
-            stop: 24000,
+            stop: 23600,
             type: 'opacity',
             properties: {
                 finalOpacity: 1
@@ -782,7 +756,7 @@ define(function(require, exports, module) {
         }
     ];
 
-    for ( var i = 0; i < actionDescriptions.length; i++ ) {
+    for (var i = 0; i < actionDescriptions.length; i++) {
         actionDescriptions[i].start = Math.floor(actionDescriptions[i].start / 4);
         actionDescriptions[i].stop = Math.floor(actionDescriptions[i].stop / 4);
     }
