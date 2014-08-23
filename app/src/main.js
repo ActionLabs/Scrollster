@@ -609,7 +609,7 @@ define(function(require, exports, module) {
             type: 'position',
             properties: {
                 scaleX: 0,
-                scaleY: -2
+                scaleY: -3
             }
         },
         {
@@ -637,7 +637,7 @@ define(function(require, exports, module) {
             type: 'position',
             properties: {
                 scaleX: 0,
-                scaleY: -3
+                scaleY: -4
             }
         },
         {
@@ -666,7 +666,7 @@ define(function(require, exports, module) {
             type: 'position',
             properties: {
                 scaleX: 0,
-                scaleY: -2
+                scaleY: -4
             }
         },
         {
@@ -695,7 +695,7 @@ define(function(require, exports, module) {
             type: 'position',
             properties: {
                 scaleX: 0,
-                scaleY: -4
+                scaleY: -5
             }
         },
         {
@@ -723,7 +723,7 @@ define(function(require, exports, module) {
             type: 'position',
             properties: {
                 scaleX: 0,
-                scaleY: -4
+                scaleY: -5
             }
         },
         {
