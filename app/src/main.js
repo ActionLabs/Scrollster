@@ -729,7 +729,7 @@ define(function(require, exports, module) {
         {
             actor: 'How It Works',
             start: 22001,
-            stop: 24000,
+            stop: 23000,
             type: 'moveTo',
             properties: {
                 location: ['50%', '-30%']
@@ -755,11 +755,6 @@ define(function(require, exports, module) {
             }
         }
     ];
-
-    for (var i = 0; i < actionDescriptions.length; i++) {
-        actionDescriptions[i].start = Math.floor(actionDescriptions[i].start / 4);
-        actionDescriptions[i].stop = Math.floor(actionDescriptions[i].stop / 4);
-    }
 
     director.populateStage(stageView, actorDescriptions, actionDescriptions);
 
