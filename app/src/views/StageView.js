@@ -20,14 +20,19 @@ define(function(require, exports, module) {
     function StageView() {
         View.apply(this, arguments);
         this.worldScrollValue = 0;
+        this._arrowData = this.options.arrowData;
 
         _setupScrollRecieverSurface.call(this);
         _handleScroll.call(this);
-        _setupArrowKeyBreakpoints.call(this, [1000, 2000, 3000, 4000, 5000, 7000, 8000, 9000, 11000, 12000, 13000, 14000, 15000, 16000, 17000, 18000, 19000, 20000, 21000, 22000, 23000, 24000], 16, 60);
+        _setupArrowKeyBreakpoints.call(this, 16, 60);
     }
 
     StageView.DEFAULT_OPTIONS = {
-
+        arrowData: {
+            breakpoints: [0],
+            speed: 4,
+            step: 10
+        }
     };
 
     StageView.prototype = Object.create(View.prototype);
@@ -37,6 +42,18 @@ define(function(require, exports, module) {
         newActor.activate(this.sync);
         newActor.subscribe(this._eventOutput);
         this.add(newActor);
+    };
+
+    StageView.prototype.updateArrowKeyBreakpoints = function(newBreakpoints) {
+        newBreakpoints = newBreakpoints.sort(function(a,b) {
+            return a - b;
+        });
+
+        if (newBreakpoints[0] !== 0) {
+            newBreakpoints = [0].concat(newBreakpoints);
+        }
+
+        this._arrowData.breakpoints = newBreakpoints;
     };
 
     function _setupScrollRecieverSurface() {
@@ -69,17 +86,14 @@ define(function(require, exports, module) {
         this._eventOutput.emit('ScrollUpdated', {delta: -delta});
     }
 
-    function _setupArrowKeyBreakpoints(breakpoints, speed, step) {
+    function _setupArrowKeyBreakpoints(speed, step) {
         var leftArrowKeyCode = 37;
         var upArrowKeyCode = 38;
         var rightArrowKeyCode = 39;
         var downArrowKeyCode = 40;
 
-        this._arrowData = {};
-        this._arrowData.breakpoints = [0].concat(breakpoints);
-        this._arrowData.index = 0;
-        this._arrowData.speed = speed || 4;
-        this._arrowData.step = step || 10;
+        this._arrowData.speed = speed || this._arrowData.speed;
+        this._arrowData.step = step || this._arrowData.step;
 
         var nextBreakpoint; //init undefined
 

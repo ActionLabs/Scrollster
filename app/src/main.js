@@ -306,6 +306,7 @@ define(function(require, exports, module) {
             actor: 'Action Labs Logo',
             start: 500,
             stop: 1000,
+            setBreak: true,
             type: 'opacity',
             properties: {}
         },
@@ -333,6 +334,7 @@ define(function(require, exports, module) {
             actor: 'Why Famous',
             start: 1501,
             stop: 2000,
+            setBreak: true,
             type: 'moveTo',
             properties: {
                 location: ['50%', '5%'],
@@ -344,6 +346,7 @@ define(function(require, exports, module) {
             start: 2001,
             stop: 3000,
             type: 'moveTo',
+            setBreak: true,
             properties: {
                 location: ['50%', '30%'],
                 curve: 'easeIn'
@@ -353,6 +356,7 @@ define(function(require, exports, module) {
             actor: 'Easing',
             start: 3001,
             stop: 4000,
+            setBreak: true,
             type: 'moveTo',
             properties: {
                 location: ['50%', '50%'],
@@ -373,6 +377,7 @@ define(function(require, exports, module) {
             actor: '3D',
             start: 4001,
             stop: 5000,
+            setBreak: true,
             type: 'rotateTo',
             properties: {
                 axis: 'x',
@@ -431,6 +436,7 @@ define(function(require, exports, module) {
             actor: 'Actor',
             start: 6001,
             stop: 7000,
+            setBreak: true,
             type: 'opacity',
             properties: {
                 finalOpacity: 1
@@ -440,6 +446,7 @@ define(function(require, exports, module) {
             actor: 'Action',
             start: 7001,
             stop: 8000,
+            setBreak: true,
             type: 'opacity',
             properties: {
                 finalOpacity: 1
@@ -460,6 +467,7 @@ define(function(require, exports, module) {
             start: 8001,
             stop: 9000,
             type: 'opacity',
+            setBreak: true,
             properties: {
                 finalOpacity: 1
             }
@@ -498,6 +506,7 @@ define(function(require, exports, module) {
             actor: 'Action Example',
             start: 10000,
             stop: 11000,
+            setBreak: true,
             type: 'moveTo',
             properties: {
                 location: ['70%', '50%'],
@@ -518,6 +527,7 @@ define(function(require, exports, module) {
             start: 11000,
             stop: 11500,
             type: 'moveTo',
+            setBreak: true,
             properties: {
                 location: ['70%', '50%'],
                 curve: 'linear'
@@ -577,6 +587,7 @@ define(function(require, exports, module) {
             actor: 'Action',
             start: 12500,
             stop: 13000,
+            setBreak: true,
             type: 'moveTo',
             properties: {
                 location: ['50%', '150%'],
@@ -587,6 +598,7 @@ define(function(require, exports, module) {
             actor: 'Position',
             start: 13000,
             stop: 14000,
+            setBreak: true,
             type: 'opacity',
             properties: {
                 finalOpacity: 1
@@ -596,6 +608,7 @@ define(function(require, exports, module) {
             actor: 'Position',
             start: 14001,
             stop: 15000,
+            setBreak: true,
             type: 'position',
             properties: {
                 scaleX: 0.5,
@@ -616,6 +629,7 @@ define(function(require, exports, module) {
             actor: 'Move To',
             start: 15001,
             stop: 16000,
+            setBreak: true,
             type: 'opacity',
             properties: {
                 finalOpacity: 1
@@ -625,6 +639,7 @@ define(function(require, exports, module) {
             actor: 'Move To',
             start: 16001,
             stop: 17000,
+            setBreak: true,
             type: 'moveTo',
             properties: {
                 location: ['25%', '25%']
@@ -644,6 +659,7 @@ define(function(require, exports, module) {
             actor: 'Rotate To',
             start: 17001,
             stop: 18000,
+            setBreak: true,
             type: 'opacity',
             properties: {
                 finalOpacity: 1
@@ -653,6 +669,7 @@ define(function(require, exports, module) {
             actor: 'Rotate To',
             start: 18001,
             stop: 19000,
+            setBreak: true,
             type: 'rotateTo',
             properties: {
                 axis: 'y',
@@ -673,6 +690,7 @@ define(function(require, exports, module) {
             actor: 'Scale',
             start: 19001,
             stop: 20000,
+            setBreak: true,
             type: 'opacity',
             properties: {
                 finalOpacity: 1
@@ -682,6 +700,7 @@ define(function(require, exports, module) {
             actor: 'Scale',
             start: 20001,
             stop: 21000,
+            setBreak: true,
             type: 'scale',
             properties: {
                 changeRatioX: 3,
@@ -702,6 +721,7 @@ define(function(require, exports, module) {
             actor: 'Skew',
             start: 21001,
             stop: 22000,
+            setBreak: true,
             type: 'opacity',
             properties: {
                 finalOpacity: 1
@@ -711,6 +731,7 @@ define(function(require, exports, module) {
             actor: 'Skew',
             start: 22001,
             stop: 23000,
+            setBreak: true,
             type: 'skew',
             properties: {
                 scaleZ: 0.75
@@ -739,6 +760,7 @@ define(function(require, exports, module) {
             actor: 'Scrollster Final',
             start: 22000,
             stop: 24000,
+            setBreak: true,
             type: 'rotateTo',
             properties: {
                 axis: 'x',
