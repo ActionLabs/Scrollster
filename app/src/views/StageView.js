@@ -81,8 +81,9 @@ define(function(require, exports, module) {
         this._arrowData.speed = speed || 4;
         this._arrowData.step = step || 10;
 
+        var nextBreakpoint; //init undefined
+
         Engine.on('keydown', function(e) {
-            var i; // Iterator
             // If movement is already in progress, cancel interval
             if (this._arrowData.interval) {
                 Timer.clear(this._arrowData.interval);
@@ -90,21 +91,16 @@ define(function(require, exports, module) {
             }
             // Up arrow key
             if (e.keyCode === downArrowKeyCode || e.keyCode === leftArrowKeyCode) {
-                // Set index based on next lowest breakpoint
-                for (i = this._arrowData.breakpoints.length - 1; i >= 0; i--) {
-                    if (this.worldScrollValue > this._arrowData.breakpoints[i]) {
-                        this._arrowData.index = i;
-                        break;
-                    }
-                }
+                // Set next lowest breakpoint
+                nextBreakpoint = getNextScrollPoint.call(this, 'reversed');
 
                 this._arrowData.interval = Timer.setInterval(function() {
-                    if (this.worldScrollValue <= this._arrowData.breakpoints[this._arrowData.index]) {
+                    if (this.worldScrollValue <= nextBreakpoint) {
                         Timer.clear(this._arrowData.interval);
                         delete this._arrowData.interval;
                     } else {
-                        if (this.worldScrollValue > this._arrowData.breakpoints[this._arrowData.index]) {
-                            var currentStep = Math.min(this._arrowData.step, this.worldScrollValue - this._arrowData.breakpoints[this._arrowData.index]);
+                        if (this.worldScrollValue > nextBreakpoint) {
+                            var currentStep = Math.min(this._arrowData.step, this.worldScrollValue - nextBreakpoint);
                             this.worldScrollValue -= currentStep;
                             _emitScrollUpdate.call(this, currentStep);
                         } else {
@@ -116,21 +112,16 @@ define(function(require, exports, module) {
 
             // Down arrow key
             } else if (e.keyCode === upArrowKeyCode || e.keyCode === rightArrowKeyCode) {
-                // Set index based on next highest breakpoint
-                for (i = 0; i < this._arrowData.breakpoints.length; i++) {
-                    if (this.worldScrollValue < this._arrowData.breakpoints[i]) {
-                        this._arrowData.index = i;
-                        break;
-                    }
-                }
+                // Set next highest breakpoint
+                nextBreakpoint = getNextScrollPoint.call(this, 'forward');
 
                 this._arrowData.interval = Timer.setInterval(function() {
-                    if (this.worldScrollValue >= this._arrowData.breakpoints[this._arrowData.index]) {
+                    if (this.worldScrollValue >= nextBreakpoint) {
                         Timer.clear(this._arrowData.interval);
                         delete this._arrowData.interval;
                     } else {
-                        if (this.worldScrollValue < this._arrowData.breakpoints[this._arrowData.index]) {
-                            var currentStep = Math.min(this._arrowData.step, this._arrowData.breakpoints[this._arrowData.index] - this.worldScrollValue);
+                        if (this.worldScrollValue < nextBreakpoint) {
+                            var currentStep = Math.min(this._arrowData.step, nextBreakpoint - this.worldScrollValue);
                             this.worldScrollValue += currentStep;
                             _emitScrollUpdate.call(this, -currentStep);
                         } else {
@@ -139,6 +130,28 @@ define(function(require, exports, module) {
                         }
                     }
                 }.bind(this), this._arrowData.speed);
+            }
+
+            // Function assumes that the breakboards are sorted lowest to highest.
+            function getNextScrollPoint(searchDirection) {
+                searchDirection = searchDirection ? searchDirection : 'forward';
+
+                var searchBreakpoints = this._arrowData.breakpoints;
+                var nextScrollPoint; //init undefined
+
+                if (searchDirection !== 'forward') {
+                    searchBreakpoints = searchBreakpoints.slice(0).reverse(); //copy array so we don't mutate the original with the reverse;
+                }
+
+                for (var i = 0; i < searchBreakpoints.length; i++) {
+                    if ((searchDirection === 'forward' && this.worldScrollValue < searchBreakpoints[i]) ||
+                        (searchDirection !== 'forward' && this.worldScrollValue > searchBreakpoints[i])) {
+                        nextScrollPoint = searchBreakpoints[i];
+                        break;
+                    }
+                }
+
+                return nextScrollPoint;
             }
         }.bind(this));
     }
