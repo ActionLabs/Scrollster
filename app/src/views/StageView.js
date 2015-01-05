@@ -70,6 +70,11 @@ define(function(require, exports, module) {
     }
 
     function _setupArrowKeyBreakpoints(breakpoints, speed, step) {
+        var leftArrowKeyCode = 37;
+        var downArrowKeyCode = 38;
+        var rightArrowKeyCode = 39;
+        var upArrowKeyCode = 40;
+
         this._arrowData = {};
         this._arrowData.breakpoints = [0].concat(breakpoints);
         this._arrowData.index = 0;
@@ -84,7 +89,7 @@ define(function(require, exports, module) {
                 delete this._arrowData.interval;
             }
             // Up arrow key
-            if (e.keyCode === 38) {
+            if (e.keyCode === downArrowKeyCode || e.keyCode === leftArrowKeyCode) {
                 // Set index based on next lowest breakpoint
                 for (i = this._arrowData.breakpoints.length - 1; i >= 0; i--) {
                     if (this.worldScrollValue > this._arrowData.breakpoints[i]) {
@@ -110,7 +115,7 @@ define(function(require, exports, module) {
                 }.bind(this), this._arrowData.speed);
 
             // Down arrow key
-            } else if (e.keyCode === 40) {
+            } else if (e.keyCode === upArrowKeyCode || e.keyCode === rightArrowKeyCode) {
                 // Set index based on next highest breakpoint
                 for (i = 0; i < this._arrowData.breakpoints.length; i++) {
                     if (this.worldScrollValue < this._arrowData.breakpoints[i]) {
