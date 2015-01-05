@@ -11,6 +11,7 @@ define(function(require, exports, module) {
     Director.prototype.populateStage = function(stage, actorDescriptions, actionDescriptions) {
         var actorFactory = new ActorFactory();
         var actionFactory = new ActionFactory();
+        var keyboardBreakPoints = [];
 
         for (var actorName in actorDescriptions) {
             // Make sure the zIndex is included in the properties
@@ -46,6 +47,11 @@ define(function(require, exports, module) {
             var actionDesc = actionDescriptions[i];
             var actor = this.actors[actionDesc.actor];
 
+            // Keep track of break points
+            if (actionDesc.setBreak) {
+                keyboardBreakPoints.push(actionDesc.stop);
+            }
+
             // If action takes a location, ensure that it's in pixels
             if (actionDesc.properties && actionDesc.properties.location) {
                 actionDesc.properties.location = _unitsToPixels(actionDesc.properties.location);
@@ -63,6 +69,8 @@ define(function(require, exports, module) {
             var currActor = this.actors[actorToStage];
             stage.addActor(currActor);
         }
+
+        stage.updateArrowKeyBreakpoints(keyboardBreakPoints);
     };
 
     function _unitsToPixels(initial) {

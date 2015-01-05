@@ -20,14 +20,19 @@ define(function(require, exports, module) {
     function StageView() {
         View.apply(this, arguments);
         this.worldScrollValue = 0;
+        this._arrowData = this.options.arrowData;
 
         _setupScrollRecieverSurface.call(this);
         _handleScroll.call(this);
-        _setupArrowKeyBreakpoints.call(this, [1000, 2000, 3000, 4000, 5000, 7000, 8000, 9000, 11000, 12000, 13000, 14000, 15000, 16000, 17000, 18000, 19000, 20000, 21000, 22000, 23000, 24000], 16, 60);
+        _setupArrowKeyBreakpoints.call(this, 16, 60);
     }
 
     StageView.DEFAULT_OPTIONS = {
-
+        arrowData: {
+            breakpoints: [0],
+            speed: 4,
+            step: 10
+        }
     };
 
     StageView.prototype = Object.create(View.prototype);
@@ -37,6 +42,18 @@ define(function(require, exports, module) {
         newActor.activate(this.sync);
         newActor.subscribe(this._eventOutput);
         this.add(newActor);
+    };
+
+    StageView.prototype.updateArrowKeyBreakpoints = function(newBreakpoints) {
+        newBreakpoints = newBreakpoints.sort(function(a,b) {
+            return a - b;
+        });
+
+        if (newBreakpoints[0] !== 0) {
+            newBreakpoints = [0].concat(newBreakpoints);
+        }
+
+        this._arrowData.breakpoints = newBreakpoints;
     };
 
     function _setupScrollRecieverSurface() {
@@ -69,37 +86,49 @@ define(function(require, exports, module) {
         this._eventOutput.emit('ScrollUpdated', {delta: -delta});
     }
 
-    function _setupArrowKeyBreakpoints(breakpoints, speed, step) {
-        this._arrowData = {};
-        this._arrowData.breakpoints = [0].concat(breakpoints);
-        this._arrowData.index = 0;
-        this._arrowData.speed = speed || 4;
-        this._arrowData.step = step || 10;
+    function _setupArrowKeyBreakpoints(speed, step) {
+        var leftArrowKeyCode = 37;
+        var upArrowKeyCode = 38;
+        var rightArrowKeyCode = 39;
+        var downArrowKeyCode = 40;
+
+        this._arrowData.speed = speed || this._arrowData.speed;
+        this._arrowData.step = step || this._arrowData.step;
+
+        var nextBreakpoint; //init undefined
 
         Engine.on('keydown', function(e) {
-            var i; // Iterator
+            var direction;
+
             // If movement is already in progress, cancel interval
             if (this._arrowData.interval) {
                 Timer.clear(this._arrowData.interval);
                 delete this._arrowData.interval;
             }
-            // Up arrow key
-            if (e.keyCode === 38) {
-                // Set index based on next lowest breakpoint
-                for (i = this._arrowData.breakpoints.length - 1; i >= 0; i--) {
-                    if (this.worldScrollValue > this._arrowData.breakpoints[i]) {
-                        this._arrowData.index = i;
-                        break;
-                    }
+
+            // Arrow key selected
+            if (e.keyCode === downArrowKeyCode || e.keyCode === leftArrowKeyCode ||
+                e.keyCode === upArrowKeyCode || e.keyCode === rightArrowKeyCode) {
+
+                //Determine direction to move
+                if (e.keyCode === downArrowKeyCode || e.keyCode === rightArrowKeyCode) {
+                    direction = 'forward';
+                } else {
+                    direction = 'reverse';
                 }
 
+                // Set next lowest breakpoint
+                nextBreakpoint = getNextScrollPoint.call(this, direction);
+
                 this._arrowData.interval = Timer.setInterval(function() {
-                    if (this.worldScrollValue <= this._arrowData.breakpoints[this._arrowData.index]) {
+                    if ((direction === 'reverse' && this.worldScrollValue <= nextBreakpoint) ||
+                        (direction === 'forward' && this.worldScrollValue >= nextBreakpoint)) {
                         Timer.clear(this._arrowData.interval);
                         delete this._arrowData.interval;
                     } else {
-                        if (this.worldScrollValue > this._arrowData.breakpoints[this._arrowData.index]) {
-                            var currentStep = Math.min(this._arrowData.step, this.worldScrollValue - this._arrowData.breakpoints[this._arrowData.index]);
+                        if (direction === 'forward' ? this.worldScrollValue < nextBreakpoint : this.worldScrollValue > nextBreakpoint) {
+                            var currentStep = Math.min(this._arrowData.step, direction === 'forward' ? nextBreakpoint - this.worldScrollValue : this.worldScrollValue - nextBreakpoint);
+                            currentStep = direction === 'forward' ? -currentStep : currentStep;
                             this.worldScrollValue -= currentStep;
                             _emitScrollUpdate.call(this, currentStep);
                         } else {
@@ -108,32 +137,28 @@ define(function(require, exports, module) {
                         }
                     }
                 }.bind(this), this._arrowData.speed);
+            }
 
-            // Down arrow key
-            } else if (e.keyCode === 40) {
-                // Set index based on next highest breakpoint
-                for (i = 0; i < this._arrowData.breakpoints.length; i++) {
-                    if (this.worldScrollValue < this._arrowData.breakpoints[i]) {
-                        this._arrowData.index = i;
+            // Function assumes that the breakboards are sorted lowest to highest.
+            function getNextScrollPoint(searchDirection) {
+                searchDirection = searchDirection ? searchDirection : 'forward';
+
+                var searchBreakpoints = this._arrowData.breakpoints;
+                var nextScrollPoint; //init undefined
+
+                if (searchDirection !== 'forward') {
+                    searchBreakpoints = searchBreakpoints.slice(0).reverse(); //copy array so we don't mutate the original with the reverse;
+                }
+
+                for (var i = 0; i < searchBreakpoints.length; i++) {
+                    if ((searchDirection === 'forward' && this.worldScrollValue < searchBreakpoints[i]) ||
+                        (searchDirection !== 'forward' && this.worldScrollValue > searchBreakpoints[i])) {
+                        nextScrollPoint = searchBreakpoints[i];
                         break;
                     }
                 }
 
-                this._arrowData.interval = Timer.setInterval(function() {
-                    if (this.worldScrollValue >= this._arrowData.breakpoints[this._arrowData.index]) {
-                        Timer.clear(this._arrowData.interval);
-                        delete this._arrowData.interval;
-                    } else {
-                        if (this.worldScrollValue < this._arrowData.breakpoints[this._arrowData.index]) {
-                            var currentStep = Math.min(this._arrowData.step, this._arrowData.breakpoints[this._arrowData.index] - this.worldScrollValue);
-                            this.worldScrollValue += currentStep;
-                            _emitScrollUpdate.call(this, -currentStep);
-                        } else {
-                            Timer.clear(this._arrowData.interval);
-                            delete this._arrowData.interval;
-                        }
-                    }
-                }.bind(this), this._arrowData.speed);
+                return nextScrollPoint;
             }
         }.bind(this));
     }
