@@ -71,9 +71,9 @@ define(function(require, exports, module) {
 
     function _setupArrowKeyBreakpoints(breakpoints, speed, step) {
         var leftArrowKeyCode = 37;
-        var downArrowKeyCode = 38;
+        var upArrowKeyCode = 38;
         var rightArrowKeyCode = 39;
-        var upArrowKeyCode = 40;
+        var downArrowKeyCode = 40;
 
         this._arrowData = {};
         this._arrowData.breakpoints = [0].concat(breakpoints);
@@ -84,46 +84,39 @@ define(function(require, exports, module) {
         var nextBreakpoint; //init undefined
 
         Engine.on('keydown', function(e) {
+            var direction;
+
             // If movement is already in progress, cancel interval
             if (this._arrowData.interval) {
                 Timer.clear(this._arrowData.interval);
                 delete this._arrowData.interval;
             }
-            // Up arrow key
-            if (e.keyCode === downArrowKeyCode || e.keyCode === leftArrowKeyCode) {
+
+            // Arrow key selected
+            if (e.keyCode === downArrowKeyCode || e.keyCode === leftArrowKeyCode ||
+                e.keyCode === upArrowKeyCode || e.keyCode === rightArrowKeyCode) {
+
+                //Determine direction to move
+                if (e.keyCode === downArrowKeyCode || e.keyCode === rightArrowKeyCode) {
+                    direction = 'forward';
+                } else {
+                    direction = 'reverse';
+                }
+
                 // Set next lowest breakpoint
-                nextBreakpoint = getNextScrollPoint.call(this, 'reversed');
+                nextBreakpoint = getNextScrollPoint.call(this, direction);
 
                 this._arrowData.interval = Timer.setInterval(function() {
-                    if (this.worldScrollValue <= nextBreakpoint) {
+                    if ((direction === 'reverse' && this.worldScrollValue <= nextBreakpoint) ||
+                        (direction === 'forward' && this.worldScrollValue >= nextBreakpoint)) {
                         Timer.clear(this._arrowData.interval);
                         delete this._arrowData.interval;
                     } else {
-                        if (this.worldScrollValue > nextBreakpoint) {
-                            var currentStep = Math.min(this._arrowData.step, this.worldScrollValue - nextBreakpoint);
+                        if (direction === 'forward' ? this.worldScrollValue < nextBreakpoint : this.worldScrollValue > nextBreakpoint) {
+                            var currentStep = Math.min(this._arrowData.step, direction === 'forward' ? nextBreakpoint - this.worldScrollValue : this.worldScrollValue - nextBreakpoint);
+                            currentStep = direction === 'forward' ? -currentStep : currentStep;
                             this.worldScrollValue -= currentStep;
                             _emitScrollUpdate.call(this, currentStep);
-                        } else {
-                            Timer.clear(this._arrowData.interval);
-                            delete this._arrowData.interval;
-                        }
-                    }
-                }.bind(this), this._arrowData.speed);
-
-            // Down arrow key
-            } else if (e.keyCode === upArrowKeyCode || e.keyCode === rightArrowKeyCode) {
-                // Set next highest breakpoint
-                nextBreakpoint = getNextScrollPoint.call(this, 'forward');
-
-                this._arrowData.interval = Timer.setInterval(function() {
-                    if (this.worldScrollValue >= nextBreakpoint) {
-                        Timer.clear(this._arrowData.interval);
-                        delete this._arrowData.interval;
-                    } else {
-                        if (this.worldScrollValue < nextBreakpoint) {
-                            var currentStep = Math.min(this._arrowData.step, nextBreakpoint - this.worldScrollValue);
-                            this.worldScrollValue += currentStep;
-                            _emitScrollUpdate.call(this, -currentStep);
                         } else {
                             Timer.clear(this._arrowData.interval);
                             delete this._arrowData.interval;
